@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="OneOffixx.ConnectClient.WinApp.ViewContent.SuccessView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OneOffixx.ConnectClient.WinApp.ViewContent"
+             xmlns:data ="clr-namespace:OneOffixx.ConnectClient.WinApp.Model"
+             xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+             xmlns:viewModel ="clr-namespace:OneOffixx.ConnectClient.WinApp.ViewModel"
+             xmlns:views = "clr-namespace:OneOffixx.ConnectClient.WinApp.ViewContent"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="250"
+             >
+    <Grid Margin="-61,0,-61,0">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="4*" />
+            </Grid.ColumnDefinitions>
+            <fa:ImageAwesome Icon="Check" Foreground="#19E866"  Grid.Row="0" Grid.Column="0" Height="20" Margin="0,20,15,0" HorizontalAlignment="Right" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Success" Foreground="#19E866" FontSize="18" Margin="0,16,0,0" />
+            <TextBlock Name="tb" Grid.Row="1" Grid.Column="0"  Text="Server Response:" Height="20" Margin="5,20,0,0" HorizontalAlignment="Right" />
+            <TextBlock Name="tb1" Grid.Row="2" Grid.Column="0" Text="Filename:" Height="20"  Margin="0,0,0,10" HorizontalAlignment="Right" />
+            <TextBlock Name="Filename" Grid.Row="2" Grid.Column="1" Text="ProxyText" Height="20" Margin="10,0,0,10" />
+            <TextBlock Name="tb2" Grid.Row="3" Grid.Column="0" Text="Size:" Height="20" Margin="0,0,0,10" HorizontalAlignment="Right" />
+            <TextBlock Name="Size" Grid.Row="3" Grid.Column="1" Text="ProxyText" Height="20" Margin="10,0,0,10" />
+            <TextBlock Name="tb3" Grid.Row="4" Grid.Column="0" Text="Time Used:" Height="20" Margin="0,0,0,10" HorizontalAlignment="Right" />
+            <TextBlock Name="Time" Grid.Row="4" Grid.Column="1" Text="ProxyText" Height="20" Margin="10,0,0,10" />
+        </Grid>
+        <Grid>
+            <Button Content="Close" Command="{ Binding Path=Close }" VerticalAlignment="Bottom" Width="70" HorizontalAlignment="Right" Margin="0,0,20,20" />
+            <Button Name="Save" Content="Save" Command="{ Binding Path=Save }" VerticalAlignment="Bottom" Width="70" HorizontalAlignment="Center" Margin="0,0,0,20" />
+            <Button Name="Open"  Content="Open" Command="{ Binding Path=Open }" VerticalAlignment="Bottom" Width="70" HorizontalAlignment="Left" Margin="20,0,20,20" />
+        </Grid>
+    </Grid>
+</UserControl>
