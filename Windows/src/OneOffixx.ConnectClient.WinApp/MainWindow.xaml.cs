@@ -19,13 +19,13 @@ namespace OneOffixx.ConnectClient.WinApp
             AppVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void InvokeLicenseUrl(object sender, System.Windows.RoutedEventArgs e)
         {
             string url = ((Button)e.Source).ToolTip.ToString();
             System.Diagnostics.Process.Start(url);
         }
 
-        private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
+        private void ShowFullLicense(object sender, System.Windows.RoutedEventArgs e)
         {
             ResponseWindow dial = new ResponseWindow();
             License licenseWindow = new License();

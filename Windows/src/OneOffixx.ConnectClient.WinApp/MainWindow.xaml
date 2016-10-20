@@ -53,14 +53,14 @@
                             </Grid.ColumnDefinitions>
 
                             <TextBlock Grid.Row="0" Grid.Column="0" Text="MahApps" Height="20"/>
-                            <Button Style="{StaticResource AccentedSquareButtonStyle}" Height="20" VerticalAlignment="Center" Background="#EA4333" BorderBrush="#EA4333" Click="Button_Click" ToolTip="http://mahapps.com/" Margin="4,0,4,2" Grid.Row="0" Grid.Column="1" >
+                            <Button Style="{StaticResource AccentedSquareButtonStyle}" Height="20" VerticalAlignment="Center" Background="#EA4333" BorderBrush="#EA4333" Click="InvokeLicenseUrl" ToolTip="http://mahapps.com/" Margin="4,0,4,2" Grid.Row="0" Grid.Column="1" >
                                 <Button.Content>
                                     <fa:ImageAwesome Icon="Globe" ></fa:ImageAwesome>
                                 </Button.Content>
                             </Button>
                             <TextBlock TextWrapping="Wrap" Grid.Row="0" Height="20" Grid.Column="2" Text="MIT" />
                             <TextBlock Grid.Row="1" Grid.Column="0" Height="20" Text="Font Awesome" />
-                            <Button Style="{StaticResource AccentedSquareButtonStyle}" VerticalAlignment="Center" Height="20" Background="#EA4333" BorderBrush="#EA4333" Click="Button_Click" ToolTip="http://fontawesome.io/" Margin="4,0,4,2" Grid.Row="1" Grid.Column="1" >
+                            <Button Style="{StaticResource AccentedSquareButtonStyle}" VerticalAlignment="Center" Height="20" Background="#EA4333" BorderBrush="#EA4333" Click="InvokeLicenseUrl" ToolTip="http://fontawesome.io/" Margin="4,0,4,2" Grid.Row="1" Grid.Column="1" >
                                 <Button.Content>
                                     <fa:ImageAwesome Icon="Globe" ></fa:ImageAwesome>
                                 </Button.Content>
@@ -68,7 +68,7 @@
                             <TextBlock Grid.Row="1" Grid.Column="2" Text="MIT" Height="20" />
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="AvalonEdit" Height="20" />
-                            <Button Style="{StaticResource AccentedSquareButtonStyle}" Height="20" VerticalAlignment="Center" Background="#EA4333" BorderBrush="#EA4333" Click="Button_Click" ToolTip="http://avalonedit.net/" Margin="4,0,4,2" Grid.Row="2" Grid.Column="1" >
+                            <Button Style="{StaticResource AccentedSquareButtonStyle}" Height="20" VerticalAlignment="Center" Background="#EA4333" BorderBrush="#EA4333" Click="InvokeLicenseUrl" ToolTip="http://avalonedit.net/" Margin="4,0,4,2" Grid.Row="2" Grid.Column="1" >
                                 <Button.Content>
                                     <fa:ImageAwesome Icon="Globe" ></fa:ImageAwesome>
                                 </Button.Content>
@@ -76,14 +76,14 @@
                             <TextBlock Grid.Row="2" Grid.Column="2" Height="20" Text="MIT" />
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="FontAwesome.WPF" Height="20" />
-                            <Button Style="{StaticResource AccentedSquareButtonStyle}" Height="20" VerticalAlignment="Center" Background="#EA4333" BorderBrush="#EA4333" Click="Button_Click" ToolTip="https://github.com/charri/Font-Awesome-WPF" Margin="4,0,4,2" Grid.Row="3" Grid.Column="1" >
+                            <Button Style="{StaticResource AccentedSquareButtonStyle}" Height="20" VerticalAlignment="Center" Background="#EA4333" BorderBrush="#EA4333" Click="InvokeLicenseUrl" ToolTip="https://github.com/charri/Font-Awesome-WPF" Margin="4,0,4,2" Grid.Row="3" Grid.Column="1" >
                                 <Button.Content>
                                     <fa:ImageAwesome Icon="Globe" ></fa:ImageAwesome>
                                 </Button.Content>
                             </Button>
                             <TextBlock Grid.Row="3" Grid.Column="2" Height="20" Text="MIT" />
                         </Grid>
-                        <Button Click="Button_Click_1" Style="{StaticResource AccentedSquareButtonStyle}" Foreground="Black" HorizontalAlignment="Left" Content="Show Licenses" Background="#EA4333" BorderBrush="#EA4333" />
+                        <Button Click="ShowFullLicense" Style="{StaticResource AccentedSquareButtonStyle}" Foreground="Black" HorizontalAlignment="Left" Content="Show Licenses" Background="#EA4333" BorderBrush="#EA4333" />
                     </StackPanel>
                    
                     
