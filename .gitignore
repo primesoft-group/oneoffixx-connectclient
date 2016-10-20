@@ -250,3 +250,7 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+
+# OneOffixx Customized
+[Tt]ools/
+[Aa]rtifacts/
