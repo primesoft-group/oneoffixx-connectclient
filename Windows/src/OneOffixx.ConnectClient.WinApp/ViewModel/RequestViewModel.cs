@@ -147,21 +147,25 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             MessageBox.Show($"Error Occured:\n {Request.Error}");
         }
 
-        public void ExecuteClose(object obj)
+        public async void ExecuteClose(object obj)
         {
             if (obj == null && advView != null)
             {
                 advView.ExecuteClose(obj);
                 advView = null;
             }
-            if (dial?.Visibility == Visibility.Visible)
+            var openDial = await ((MetroWindow)Application.Current.MainWindow).GetCurrentDialogAsync<BaseMetroDialog>();
+            if(openDial != null)
             {
-                if (advView != null)
+                if (dial?.Visibility == Visibility.Visible)
                 {
-                    advView = null;
+                    if (advView != null)
+                    {
+                        advView = null;
+                    }
+                    dial.Visibility = Visibility.Hidden;
                 }
-                dial.Visibility = Visibility.Hidden;
-                ((MetroWindow)Application.Current.MainWindow).HideMetroDialogAsync(dial);
+                await ((MetroWindow)Application.Current.MainWindow).HideMetroDialogAsync(openDial);
             }
         }
 

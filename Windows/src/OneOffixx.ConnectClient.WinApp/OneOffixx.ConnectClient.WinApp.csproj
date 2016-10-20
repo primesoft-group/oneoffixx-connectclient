@@ -83,6 +83,9 @@
     <Compile Include="ViewContent\FailView.xaml.cs">
       <DependentUpon>FailView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewContent\License.xaml.cs">
+      <DependentUpon>License.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewContent\RequestView.xaml.cs">
       <DependentUpon>RequestView.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ViewContent\FailView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewContent\License.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +177,9 @@
   <ItemGroup>
     <Resource Include="Ressources\failed.png" />
     <Resource Include="Ressources\OneConnectIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Licenses\Licenses.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
