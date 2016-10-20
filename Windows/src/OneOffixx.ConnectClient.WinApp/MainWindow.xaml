@@ -83,7 +83,7 @@
                             </Button>
                             <TextBlock Grid.Row="3" Grid.Column="2" Height="20" Text="MIT" />
                         </Grid>
-                        <Button Click="Button_Click_1" Content="Show Licenses" />
+                        <Button Click="Button_Click_1" Style="{StaticResource AccentedSquareButtonStyle}" Foreground="Black" HorizontalAlignment="Left" Content="Show Licenses" Background="#EA4333" BorderBrush="#EA4333" />
                     </StackPanel>
                    
                     
