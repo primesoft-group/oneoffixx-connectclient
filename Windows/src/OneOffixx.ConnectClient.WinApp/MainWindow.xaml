@@ -12,8 +12,9 @@
         Icon="/Ressources/OneConnectIcon.ico"
         WindowStartupLocation="CenterScreen"
         BorderBrush="{DynamicResource AccentColorBrush}"
-        BorderThickness="1"
-        NonActiveWindowTitleBrush="#CCE51400"
+        BorderThickness="0"
+        GlowBrush="{DynamicResource NonActiveBorderColorBrush}"
+        NonActiveWindowTitleBrush="{DynamicResource AccentColorBrush}"
         ShowIconOnTitleBar="False">
     <Window.InputBindings>
         <KeyBinding Command="{Binding Path=Close}" Key="Esc" />
