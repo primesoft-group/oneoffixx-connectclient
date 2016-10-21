@@ -11,5 +11,6 @@
         <ScrollViewer Height="300">
             <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Name="Content" />
         </ScrollViewer>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="92" Content="Close" Command="{Binding Close}" Margin="0,0,10,10" />
     </Grid>
 </UserControl>
