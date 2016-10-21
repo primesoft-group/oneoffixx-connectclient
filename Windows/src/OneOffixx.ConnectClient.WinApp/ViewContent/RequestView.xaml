@@ -67,8 +67,28 @@
                                                             <fa:ImageAwesome Margin="4,0,0,0" Icon="{Binding Path=ActionIcon}" Height="16" Foreground="{Binding Path=ResponseColor}" />
                                                             <TextBlock Text="{Binding Path=RequestEntry.Date}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center"/>
                                                         </StackPanel>
-                                                        <Button Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Right" Height="16" Margin="8,4,4,4" Command="{Binding Path=DeleteValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
-                                                            <fa:ImageAwesome Icon="Times" Foreground="Red" />
+                                                        <Button HorizontalAlignment="Right" Height="16" Margin="8,4,4,4" Command="{Binding Path=DeleteValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+                                                            <Button.Style>
+                                                                <Style TargetType="Button">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver}" Value="True" >
+                                                                            <Setter Property="Button.Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True" >
+                                                                            <Setter Property="Button.Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Button.Style>
+                                                            <fa:ImageAwesome Icon="Trash"  />
                                                         </Button>
                                                     </Grid>
                                                 </Border>
