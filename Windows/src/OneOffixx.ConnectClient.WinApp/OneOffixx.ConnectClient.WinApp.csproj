@@ -97,6 +97,16 @@
     <Compile Include="ViewWindows\ResponseWindow.xaml.cs">
       <DependentUpon>ResponseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="XHelper\XmlElementInformation.cs" />
+    <Compile Include="XHelper\XmlElementQualifiedName.cs" />
+    <Compile Include="XHelper\XmlElementQualifiedNameCollection.cs" />
+    <Compile Include="XHelper\XmlNamespace.cs" />
+    <Compile Include="XHelper\XmlNamespaceCollection.cs" />
+    <Compile Include="XHelper\XmlParser.cs" />
+    <Compile Include="XHelper\XsdAttributeInformation.cs" />
+    <Compile Include="XHelper\XsdElementInformation.cs" />
+    <Compile Include="XHelper\XsdParser.cs" />
+    <Compile Include="XmlCompletion\XmlCompletionData.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
