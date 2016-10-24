@@ -1,4 +1,6 @@
-﻿using ICSharpCode.AvalonEdit.CodeCompletion;
+﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Editing;
 using OneOffixx.ConnectClient.WinApp.XHelper;
 using OneOffixx.ConnectClient.WinApp.XmlCompletion;
 using System;
@@ -40,8 +42,14 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
             XsdInformation = XHelper.XsdParser.AnalyseSchema(schemas);
 
             textEditor.TextChanged += IntelliSense;
+            textEditor.TextArea.Name = "TextArea";
             textEditor.TextArea.TextEntered += TextArea_TextEntered;
             textEditor.TextArea.Caret.PositionChanged += IntelliSense;
+
+            textEditorClient.TextChanged += IntelliSense;
+            textEditorClient.TextArea.Name = "TextAreaClient";
+            textEditorClient.TextArea.TextEntered += TextArea_TextEntered;
+            textEditorClient.TextArea.Caret.PositionChanged += IntelliSense;
         }
 
         private void TextBox_PreviewDrop(object sender, DragEventArgs e)
@@ -57,7 +65,16 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
 
         private void TextArea_TextEntered(object sender, TextCompositionEventArgs e)
         {
-            var _editor = textEditor;
+            TextEditor _editor = new TextEditor();
+            switch (((TextArea)sender).Name)
+            {
+                case "TextArea":
+                    _editor = textEditor;
+                    break;
+                case "TextAreaClient":
+                    _editor = textEditorClient;
+                    break;
+            }
             try
             {
 
@@ -115,14 +132,14 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
                         var parentElement = XHelper.XmlParser.GetParentElementPath(_editor.Text);
                         var elementAutocompleteList = ProvidePossibleElementsAutocomplete(parentElement);
 
-                        InvokeCompletionWindow(elementAutocompleteList, false);
+                        InvokeCompletionWindow(elementAutocompleteList, false, _editor);
 
                         break;
                     case " ":
                         {
                             var currentElement = XHelper.XmlParser.GetActiveElementStartPath(_editor.Text, _editor.CaretOffset);
                             var attributeautocompletelist = ProvidePossibleAttributesAutocomplete(currentElement);
-                            InvokeCompletionWindow(attributeautocompletelist, true);
+                            InvokeCompletionWindow(attributeautocompletelist, true, _editor);
                             break;
                         }
 
@@ -143,9 +160,9 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
             }
         }
 
-        private void InvokeCompletionWindow(List<Tuple<string, string>> elementAutocompleteList, bool isAttribute)
+        private void InvokeCompletionWindow(List<Tuple<string, string>> elementAutocompleteList, bool isAttribute, TextEditor editor)
         {
-            var completionWindow = new CompletionWindow(textEditor.TextArea);
+            var completionWindow = new CompletionWindow(editor.TextArea);
             IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
             if (elementAutocompleteList.Any())
             {

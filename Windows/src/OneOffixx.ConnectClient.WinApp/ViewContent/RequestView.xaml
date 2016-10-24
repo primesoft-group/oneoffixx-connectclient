@@ -142,7 +142,7 @@
                                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Request.Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding PwVisibility}" />
                                     <CheckBox Name="checkPw"  Grid.Row="1" Grid.Column="2" Margin="4,0,0,0" Command="{Binding Path=Checkbox }" Content="Show" CommandParameter="{Binding IsChecked, ElementName=checkPw}" />
                                 </Grid>
-                                <TextBox Margin="0,65,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver"  PreviewDrop="TextBox_PreviewDrop" ></TextBox>
+                                
                                 <avalonEdit:TextEditor  WordWrap="True"
                                                         ShowLineNumbers="True"
                                                         LineNumbersForeground="Red" 
@@ -180,7 +180,7 @@
                             <avalonEdit:TextEditor  WordWrap="True"
                                                         ShowLineNumbers="True"
                                                         LineNumbersForeground="Red" 
-                                                        Name="textEditorClient" 
+                                                        Name="textEditorClient"
                                                         SyntaxHighlighting="XML" 
                                                         Background="White"
                                                         ScrollViewer.VerticalScrollBarVisibility="Auto" 
