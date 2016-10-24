@@ -138,20 +138,11 @@
                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Password:" Margin="0,3,0,0"  />
                                 <PasswordBox Grid.Row="1" Grid.Column="1" Width="240" w:PasswordHelper.Attach="True"
              w:PasswordHelper.Password="{Binding Path=Request.Password, Mode=TwoWay}"  />
-<<<<<<< HEAD
-                                    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Request.Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding PwVisibility}" />
-                                    <CheckBox Name="checkPw"  Grid.Row="1" Grid.Column="2" Margin="4,0,0,0" Command="{Binding Path=Checkbox }" Content="Show" CommandParameter="{Binding IsChecked, ElementName=checkPw}" />
-                                </Grid>
-                                <TextBox Margin="0,65,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver"  PreviewDrop="TextBox_PreviewDrop" ></TextBox>
-                                <avalonEdit:TextEditor  WordWrap="True"
-=======
                                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Request.Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding PwVisibility}" />
                                 <CheckBox Name="checkPw"  Grid.Row="1" Grid.Column="2" Margin="4,0,0,0" Command="{Binding Path=Checkbox }" Content="Show" CommandParameter="{Binding IsChecked, ElementName=checkPw}" />
                             </Grid>
                             <TextBox Margin="0,65,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver"  PreviewDrop="TextBox_PreviewDrop" ></TextBox>
                             <avalonEdit:TextEditor  WordWrap="True"
-                                                        
->>>>>>> origin/master
                                                         ShowLineNumbers="True"
                                                         LineNumbersForeground="Red" 
                                                         Name="textEditor" 
