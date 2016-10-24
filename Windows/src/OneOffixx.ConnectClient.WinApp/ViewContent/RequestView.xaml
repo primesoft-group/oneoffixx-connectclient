@@ -41,7 +41,7 @@
     </UserControl.Resources>
     <Grid>
         <DockPanel>
-            <Border BorderBrush="#CCE51400" BorderThickness="2">
+            <Border BorderBrush="{StaticResource ThumbBrush}" BorderThickness="0,0,1,0">
                 <Grid>
                     <fa:ImageAwesome Icon="exclamation" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="Red" Margin="100,5,20,0" Visibility="{Binding Path=Request.WarningVisibility, UpdateSourceTrigger=PropertyChanged}" ToolTip="{Binding Path=Request.WarningMessage, UpdateSourceTrigger=PropertyChanged}" />
                     <TabControl Margin="4" DockPanel.Dock="Left">
@@ -101,49 +101,57 @@
                     </TabControl>
                 </Grid>
             </Border>
-            <Border BorderBrush="#CCE51400" BorderThickness="2">
-                <TabControl Margin="4" SelectedIndex="{Binding Path=Request.SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Focusable="False">
-                    <TabItem Header="Server" TabIndex="0">
-                        <DockPanel LastChildFill="True" >
-                            <Grid DockPanel.Dock="Top" Margin="0,0,0,15" >
+            <TabControl Margin="4" SelectedIndex="{Binding Path=Request.SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Focusable="False">
+                <TabItem Header="Server" TabIndex="0">
+                    <DockPanel LastChildFill="True" >
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,15" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140*"/>
+                                <ColumnDefinition Width="733*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Server:"  HorizontalAlignment="Left" Margin="0,3,0,0" />
+                            <TextBox Text="{Binding Path=Request.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,0,0,0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" />
+                        </Grid>
+                        <Grid DockPanel.Dock="Bottom">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Bottom">
+                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right"  />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Style="{DynamicResource SquareButtonStyle}" Width="98" Content="Validate" Margin="0,20,8,20" Command="{Binding Validate}"/>
+                                <Button Style="{DynamicResource SquareButtonStyle}" Margin="0,20,8,20" Content="Advanced" Width="98" Command="{Binding OpenAdvSettings}" />
+                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Send" Command="{Binding Path=Send}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right" />
+                            </StackPanel>
+                        </Grid>
+                        <Grid>
+                            <Grid Height="60" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="140*"/>
-                                    <ColumnDefinition Width="733*"/>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="240" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="Server:"  HorizontalAlignment="Left" Margin="0,3,0,0" />
-                                <TextBox Text="{Binding Path=Request.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,0,0,0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" />
-                            </Grid>
-                            <Grid DockPanel.Dock="Bottom">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Bottom">
-                                    <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right"  />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Style="{DynamicResource SquareButtonStyle}" Width="98" Content="Validate" Margin="0,20,8,20" Command="{Binding Validate}"/>
-                                    <Button Style="{DynamicResource SquareButtonStyle}" Margin="0,20,8,20" Content="Advanced" Width="98" Command="{Binding OpenAdvSettings}" />
-                                    <Button Style="{DynamicResource SquareButtonStyle}" Content="Send" Command="{Binding Path=Send}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right" />
-                                </StackPanel>
-                            </Grid>
-                            <Grid>
-                                <Grid Height="60" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
-                                        <ColumnDefinition Width="240" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Username:" Margin="0,3,0,5"/>
-                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Request.Username, UpdateSourceTrigger=PropertyChanged }" Width="240" Margin="0,0,0,5" />
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Password:" Margin="0,3,0,0"  />
-                                    <PasswordBox Grid.Row="1" Grid.Column="1" Width="240" w:PasswordHelper.Attach="True"
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Username:" Margin="0,3,0,5"/>
+                                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Request.Username, UpdateSourceTrigger=PropertyChanged }" Width="240" Margin="0,0,0,5" />
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Password:" Margin="0,3,0,0"  />
+                                <PasswordBox Grid.Row="1" Grid.Column="1" Width="240" w:PasswordHelper.Attach="True"
              w:PasswordHelper.Password="{Binding Path=Request.Password, Mode=TwoWay}"  />
+<<<<<<< HEAD
                                     <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Request.Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding PwVisibility}" />
                                     <CheckBox Name="checkPw"  Grid.Row="1" Grid.Column="2" Margin="4,0,0,0" Command="{Binding Path=Checkbox }" Content="Show" CommandParameter="{Binding IsChecked, ElementName=checkPw}" />
                                 </Grid>
                                 
                                 <avalonEdit:TextEditor  WordWrap="True"
+=======
+                                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Request.Password, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding PwVisibility}" />
+                                <CheckBox Name="checkPw"  Grid.Row="1" Grid.Column="2" Margin="4,0,0,0" Command="{Binding Path=Checkbox }" Content="Show" CommandParameter="{Binding IsChecked, ElementName=checkPw}" />
+                            </Grid>
+                            <TextBox Margin="0,65,0,0" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="True" PreviewDragOver="TextBox_PreviewDragOver"  PreviewDrop="TextBox_PreviewDrop" ></TextBox>
+                            <avalonEdit:TextEditor  WordWrap="True"
+                                                        
+>>>>>>> origin/master
                                                         ShowLineNumbers="True"
                                                         LineNumbersForeground="Red" 
                                                         Name="textEditor" 
@@ -151,40 +159,7 @@
                                                         Background="White" 
                                                         Margin="0,65,0,0" 
                                                         ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                                        BorderBrush="Black" 
-                                                        BorderThickness="1"
-                                                        AllowDrop="True" 
-                                                        PreviewDragOver="TextBox_PreviewDragOver"  
-                                                        PreviewDrop="TextBox_PreviewDrop">
-                                    <i:Interaction.Behaviors>
-                                        <behaviour:AvalonEditBehaviour GiveMeTheText="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                    </i:Interaction.Behaviors>
-                                </avalonEdit:TextEditor>
-                            </Grid>
-                        </DockPanel>
-                    </TabItem>
-                    <TabItem Header="Client" TabIndex="1">
-                        <DockPanel>
-                            <Grid DockPanel.Dock="Top" Margin="0,0,0,15">
-                                <TextBox Text="{Binding Path=Request.Directory, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,98,0" HorizontalAlignment="Stretch" />
-                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Browse" Command="{Binding Path=Browse}" HorizontalAlignment="Right" Width="98"/>
-                            </Grid>
-                            <Grid DockPanel.Dock="Bottom">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Bottom">
-                                    <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right"  />
-                                </StackPanel>
-                                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                    <Button Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Right" Margin="0,20,0,20" Width="98" Content="OK" Command="{Binding Path=Connect }"/>
-                                </StackPanel>
-                            </Grid>
-                            <avalonEdit:TextEditor  WordWrap="True"
-                                                        ShowLineNumbers="True"
-                                                        LineNumbersForeground="Red" 
-                                                        Name="textEditorClient"
-                                                        SyntaxHighlighting="XML" 
-                                                        Background="White"
-                                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                                        BorderBrush="Black" 
+                                                        BorderBrush="{StaticResource TextBoxBorderBrush}" 
                                                         BorderThickness="1"
                                                         AllowDrop="True" 
                                                         PreviewDragOver="TextBox_PreviewDragOver"  
@@ -193,10 +168,42 @@
                                     <behaviour:AvalonEditBehaviour GiveMeTheText="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </i:Interaction.Behaviors>
                             </avalonEdit:TextEditor>
-                        </DockPanel>
-                    </TabItem>
-                </TabControl>
-            </Border>
+                        </Grid>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="Client" TabIndex="1">
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Top" Margin="0,0,0,15">
+                            <TextBox Text="{Binding Path=Request.Directory, Mode=TwoWay , UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,98,0" HorizontalAlignment="Stretch" />
+                            <Button Style="{DynamicResource SquareButtonStyle}" Content="Browse" Command="{Binding Path=Browse}" HorizontalAlignment="Right" Width="98"/>
+                        </Grid>
+                        <Grid DockPanel.Dock="Bottom">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Bottom">
+                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right"  />
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Right" Margin="0,20,0,20" Width="98" Content="OK" Command="{Binding Path=Connect }"/>
+                            </StackPanel>
+                        </Grid>
+                        <avalonEdit:TextEditor  WordWrap="True"
+                                                        ShowLineNumbers="True"
+                                                        LineNumbersForeground="Red" 
+                                                        Name="textEditorClient"
+                                                        SyntaxHighlighting="XML" 
+                                                        Background="White"
+                                                        ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                                        BorderBrush="{StaticResource TextBoxBorderBrush}" 
+                                                        BorderThickness="1"
+                                                        AllowDrop="True" 
+                                                        PreviewDragOver="TextBox_PreviewDragOver"  
+                                                        PreviewDrop="TextBox_PreviewDrop">
+                            <i:Interaction.Behaviors>
+                                <behaviour:AvalonEditBehaviour GiveMeTheText="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </i:Interaction.Behaviors>
+                        </avalonEdit:TextEditor>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
         </DockPanel>
     </Grid>
 </UserControl>
