@@ -86,7 +86,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
                             //auto-insert closing element
                             int offset = _editor.CaretOffset;
                             string s = XHelper.XmlParser.GetElementAtCursor(_editor.Text, offset - 1);
-                            if (!string.IsNullOrWhiteSpace(s) && "!--" != s.Substring(0,3))
+                            if (!string.IsNullOrWhiteSpace(s) && !s.StartsWith("!--"))
                             {
                                 if (!XHelper.XmlParser.IsClosingElement(_editor.Text, offset - 1, s))
                                 {
