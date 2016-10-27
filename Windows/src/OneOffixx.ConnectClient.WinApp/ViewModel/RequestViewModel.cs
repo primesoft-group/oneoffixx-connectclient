@@ -62,6 +62,11 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         private string validationText;
         private readonly string historyFileName = "History.xml";
 
+        private string GetHistorySavePath()
+        {
+            return Environment.ExpandEnvironmentVariables("%ProgramData%\\OneOffixx.ConnectClient\\");
+        }
+
         public RequestViewModel()
         {
             log = new History();
@@ -256,9 +261,9 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         {
             log.Logs.Clear();
             Request.Log = new ObservableCollection<Log>(log.Logs);
-            if (File.Exists(Environment.ExpandEnvironmentVariables("%ProgramData%\\ConnectTool\\") + historyFileName))
+            if (File.Exists(Path.Combine(GetHistorySavePath() + historyFileName)))
             {
-                File.Delete(Environment.ExpandEnvironmentVariables("%ProgramData%\\ConnectTool\\") + historyFileName);
+                File.Delete(Path.Combine(GetHistorySavePath() + historyFileName));
             }
         }
 
@@ -329,8 +334,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
 
         public void LoadHistoryFromFile()
         {
-            string path = Environment.ExpandEnvironmentVariables("%ProgramData%\\ConnectTool\\");
-            string filepath = path + historyFileName;
+            string filepath = Path.Combine(GetHistorySavePath() + historyFileName);
             if (File.Exists(filepath))
             {
                 try
@@ -350,7 +354,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 }
                 catch (Exception)
                 {
-                    string newFilepath = path + Guid.NewGuid().ToString() + "\\" + historyFileName;
+                    string newFilepath = GetHistorySavePath() + Guid.NewGuid().ToString() + "\\" + historyFileName;
                     System.IO.File.Move("filepath", newFilepath);
                     FailView fail = new FailView(this);
                     dial = new ResponseWindow();
@@ -392,7 +396,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
 
         public void SaveHistory()
         {
-            string path = Environment.ExpandEnvironmentVariables("%ProgramData%\\ConnectTool\\");
+            string path = GetHistorySavePath();
             HistoryEntry history = new HistoryEntry();
             history.Logs = new List<LogEntrys>();
             foreach (var item in Request.Log)
@@ -570,7 +574,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 else
                 {
                     FailView fail = new FailView(this);
-                    fail.ServerStatus.Text = "The xml Code is not Valid";
+                    fail.ServerStatus.Text = "The XML is not valid.";
                     fail.Details.Text = validationText;
                     dial.Content = fail;
                     dial.Height = 300;
@@ -583,7 +587,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             {
                 FailView fail = new FailView(this);
                 fail.ServerStatus.Text = "Xml Parse Exception";
-                fail.Details.Text = "In your xml code hides an Error. Please erase it and validate again.";
+                fail.Details.Text = "The XML contains an error. Make sure it is well formed and validate again.";
                 dial.Content = fail;
                 dial.Height = 300;
                 dial.Width = 300;

@@ -93,6 +93,7 @@
       <DependentUpon>SuccessView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AdvancedViewModel.cs" />
+    <Compile Include="ViewModel\RequestSender.cs" />
     <Compile Include="ViewModel\RequestViewModel.cs" />
     <Compile Include="ViewWindows\ResponseWindow.xaml.cs">
       <DependentUpon>ResponseWindow.xaml</DependentUpon>
