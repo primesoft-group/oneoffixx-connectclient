@@ -64,7 +64,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
 
         private string GetHistorySavePath()
         {
-            return Environment.ExpandEnvironmentVariables("%ProgramData%\\OneOffixx.ConnectClient\\");
+            return Environment.ExpandEnvironmentVariables("%AppData%\\OneOffixx.ConnectClient\\");
         }
 
         public RequestViewModel()
