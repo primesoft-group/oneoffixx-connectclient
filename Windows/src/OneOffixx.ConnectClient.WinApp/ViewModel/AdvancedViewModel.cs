@@ -24,7 +24,6 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         private ObservableCollection<Log> multipleRequests;
         private bool canExecuteSend = false;
         private int parallel;
-        private object locker;
         private string borderColorParallel = "#FFFFFF";
         private string borderColorRequests = "#FFFFFF";
         private RequestSender sender;
@@ -116,7 +115,6 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             Close = new RelayCommand(ExecuteClose, param => true);
             advSettings = new AdvancedSettings(this);
             this.request = request;
-            locker = new object();
         }
 
         public void ExecuteAdvancedRequest(object obj)
@@ -124,6 +122,8 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             canExecuteSend = false;
             int requests;
             decimal time = 0;
+            this.advSettings.Timeused.Text = string.Empty;
+
             MultipleRequests = new ObservableCollection<Log>();
             try
             {
@@ -142,6 +142,10 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                         advSettings.PbStatus.Maximum = requests;
                         BorderColorParallel = "#FFFFFF";
                         var counter = 0;
+
+                        Stopwatch sw = new Stopwatch();
+                        sw.Start();
+
                         Parallel.For(0, parallel, async i =>
                         {
                             do
@@ -151,34 +155,35 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                                 {
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                        lock (locker)
-                                        {
                                             canExecuteSend = true;
                                             Send.CanExecute(canExecuteSend);
+
+                                        sw.Stop();
+
+                                        if (time == 0)
+                                        {
+                                            time = Math.Round((decimal)sw.ElapsedMilliseconds / 1000, 3);
                                             advSettings.Timeused.Text = time.ToString();
                                         }
+
                                     });
                                     break;
                                 }
-                                Stopwatch sw = new Stopwatch();
-                                sw.Start();
+                                
                                 var result = await sender.SendRequestTask();
-                                sw.Stop();
+                                
                                 using (var content = result.Content)
                                 {
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                        lock (locker)
-                                        {
                                             MultipleRequests.Add(new Log() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });
                                             advSettings.PbStatus.Value += 1;
-                                            time += Math.Round((decimal)sw.ElapsedMilliseconds / 1000, 3);
-                                        }
                                     });
                                 }
                             }
                             while (true);
                         });
+
                     }
                     else
                     {
@@ -190,17 +195,6 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             catch (OverflowException)
             {
                 BorderColorRequests = "#ffcccc";
-            }
-        }
-
-        public Task<HttpResponseMessage> SendRequestTask()
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                var inBytes = Encoding.ASCII.GetBytes($"{request.Username}:{request.Password}");
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(inBytes));
-                HttpContent content = new StringContent(request.XmlString);
-                return client.PostAsync(request.Url, content);
             }
         }
 

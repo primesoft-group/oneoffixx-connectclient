@@ -51,6 +51,7 @@
                     <ColumnDefinition Width="347*"/>
                 </Grid.ColumnDefinitions>
                 <Controls:MetroProgressBar Background="Gray" Foreground="Red" Minimum="0" Name="PbStatus" HorizontalAlignment="Left" Width="190" Grid.ColumnSpan="2" Margin="0,11" />
+                
                 <Button Style="{DynamicResource SquareButtonStyle}" Command="{Binding Path=Close}" Width="40" Content="Close" HorizontalAlignment="Right" Margin="0,0,44,0" Grid.Column="1"/>
                 <Button Style="{DynamicResource SquareButtonStyle}" Command="{Binding Path=Send, UpdateSourceTrigger=PropertyChanged}" Content="Send" Width="40" HorizontalAlignment="Right" Grid.Column="1" />
             </Grid>

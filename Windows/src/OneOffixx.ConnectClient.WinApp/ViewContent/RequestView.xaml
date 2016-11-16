@@ -47,8 +47,8 @@
                     <TabControl Margin="4" DockPanel.Dock="Left">
                         <TabItem Header="History">
                             <DockPanel>
-                                <Grid DockPanel.Dock="Bottom">
-                                    <Button Style="{DynamicResource SquareButtonStyle}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right" Content="Clear" Command="{Binding Path=Clear}"/>
+                                <Grid DockPanel.Dock="Bottom" Margin="0,20,0,20">
+                                    <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Clear" Command="{Binding Path=Clear}"/>
                                 </Grid>
                                 <Grid>
                                     <ListBox ItemContainerStyle="{StaticResource ActiveDocFuncListBoxItem}" Name="ListBox1" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectedItem="{Binding Path=SelectedLogItem }"
@@ -112,14 +112,25 @@
                             <TextBlock Text="Server:"  HorizontalAlignment="Left" Margin="0,3,0,0" />
                             <TextBox Text="{Binding Path=Request.Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,0,0,0" HorizontalAlignment="Stretch" Grid.ColumnSpan="2" />
                         </Grid>
-                        <Grid DockPanel.Dock="Bottom">
+                        <Grid DockPanel.Dock="Bottom" Margin="0,20,0,20">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" DockPanel.Dock="Bottom">
-                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right"  />
+                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" MinWidth="98" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right"  />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                <Button Style="{DynamicResource SquareButtonStyle}" Width="98" Content="Validate" Margin="0,20,8,20" Command="{Binding Validate}"/>
-                                <Button Style="{DynamicResource SquareButtonStyle}" Margin="0,20,8,20" Content="Advanced" Width="98" Command="{Binding OpenAdvSettings}" />
-                                <Button Style="{DynamicResource SquareButtonStyle}" Content="Send" Command="{Binding Path=Send}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right" />
+                                <fa:FontAwesome Icon="LightbulbOutline" VerticalAlignment="Center" Margin="0,0,8,0" HorizontalAlignment="Center">
+                                    <fa:FontAwesome.ToolTip>
+                                        <ToolTip>
+                                            <TextBlock TextAlignment="Left">
+                                                <Run Text="These placeholders are available when using Advanced-Mode:" />
+                                                <LineBreak />
+                                                <Run Text="$(GUID): Will be replaced with a random Guid." />
+                                            </TextBlock>
+                                        </ToolTip>
+                                    </fa:FontAwesome.ToolTip>    
+                                </fa:FontAwesome>
+                                <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" Margin="0,0,8,0" Content="Validate" Command="{Binding Validate}"/>
+                                <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" Margin="0,0,8,0" Content="Advanced" Command="{Binding OpenAdvSettings}" />
+                                <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" Margin="0,0,8,0" Content="Send" Command="{Binding Path=Send}" HorizontalAlignment="Right" />
                             </StackPanel>
                         </Grid>
                         <Grid>
