@@ -155,29 +155,34 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                                 {
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                            canExecuteSend = true;
-                                            Send.CanExecute(canExecuteSend);
+                                        canExecuteSend = true;
+                                        Send.CanExecute(canExecuteSend);
 
-                                        sw.Stop();
 
-                                        if (time == 0)
-                                        {
-                                            time = Math.Round((decimal)sw.ElapsedMilliseconds / 1000, 3);
-                                            advSettings.Timeused.Text = time.ToString();
-                                        }
 
                                     });
                                     break;
                                 }
-                                
+
                                 var result = await sender.SendRequestTask();
-                                
+
                                 using (var content = result.Content)
                                 {
+
+
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                            MultipleRequests.Add(new Log() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });
-                                            advSettings.PbStatus.Value += 1;
+                                        MultipleRequests.Add(new Log() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });
+                                        advSettings.PbStatus.Value += 1;
+
+                                        if (advSettings.PbStatus.Value >= requests)
+                                        {
+                                            sw.Stop();
+                                        }
+
+                                        time = Math.Round((decimal)sw.ElapsedMilliseconds / 1000, 3);
+                                        advSettings.Timeused.Text = time.ToString("0.00");
+                                        advSettings.PbStatus.ToolTip = "Progress: " + advSettings.PbStatus.Value + "/" + requests;
                                     });
                                 }
                             }
