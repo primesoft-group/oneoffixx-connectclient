@@ -181,7 +181,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                                         }
 
                                         time = Math.Round((decimal)sw.ElapsedMilliseconds / 1000, 3);
-                                        advSettings.Timeused.Text = time.ToString("0.00");
+                                        advSettings.Timeused.Text = time.ToString("0.00") + " (" + (advSettings.PbStatus.Value / Convert.ToDouble(time)).ToString("0.00") + " Req/Sec)";
                                         advSettings.PbStatus.ToolTip = "Progress: " + advSettings.PbStatus.Value + "/" + requests;
                                     });
                                 }

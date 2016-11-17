@@ -27,7 +27,7 @@
                 <TextBox ToolTip="Max. 100" Background="{Binding Path=BorderColorParallel, UpdateSourceTrigger=PropertyChanged}" Margin="0,4,0,0" Grid.Row="1" Grid.Column="1" Text="{Binding Path=NumberOfRequestsParallel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="NumberValidationTextBox"/>
             </Grid>
             <TextBlock Text="Responses:" Margin="4,4,4,2" FontSize="16" />
-            <ListView BorderBrush="Black" BorderThickness="1" AlternationCount="100000" Margin="4,4,4,4" ItemsSource="{Binding Path=MultipleRequests, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="190">
+            <ListView BorderBrush="Black" BorderThickness="1" AlternationCount="100000" Margin="4,4,4,4" ItemsSource="{Binding Path=MultipleRequests, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="184">
                 <ListBox.ItemTemplate >
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -41,7 +41,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListView>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                 <TextBlock Text="Time used in Seconds: " FontSize="14" />
                 <TextBlock Name="Timeused" FontSize="14" />
             </StackPanel>
