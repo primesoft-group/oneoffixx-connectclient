@@ -5,6 +5,10 @@ using ICSharpCode.AvalonEdit.Editing;
 
 namespace OneOffixx.ConnectClient.WinApp.XmlCompletion
 {
+    /// <summary>
+    /// Helper class for the Text Editor.
+    /// Loads an Xml schema and suggests Elements based on the users typing.
+    /// </summary>
     public class XmlCompletionData : ICompletionData
     {
         private readonly bool _isAttribute;

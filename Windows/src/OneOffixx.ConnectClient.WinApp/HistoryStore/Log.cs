@@ -1,4 +1,12 @@
-﻿using OneOffixx.ConnectClient.WinApp.Helpers;
+﻿/* =============================================================================
+ * Copyright (C) by Sevitec AG
+ *
+ * Project: OneOffixx.ConnectClient.WinApp.HistoryStore
+ * 
+ * =============================================================================
+ * */
+
+using OneOffixx.ConnectClient.WinApp.Helpers;
 using System.Text;
 using System.Windows.Input;
 

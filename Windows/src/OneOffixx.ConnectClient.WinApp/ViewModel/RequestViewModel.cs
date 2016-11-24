@@ -1,4 +1,12 @@
-﻿using MahApps.Metro.Controls;
+﻿/* =============================================================================
+ * Copyright (C) by Sevitec AG
+ *
+ * Project: OneOffixx.ConnectClient.WinApp.ViewModel
+ * 
+ * =============================================================================
+ * */
+
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using OneOffixx.ConnectClient.WinApp.Helpers;
 using OneOffixx.ConnectClient.WinApp.HistoryStore;
@@ -135,6 +143,10 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Shows or hides the Text Input of the Password Field.
+        /// </summary>
+        /// <param name="obj"></param>
         public void CheckBoxChanged(object obj)
         {
             if ((bool)obj)
@@ -152,6 +164,10 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             MessageBox.Show($"Error Occured:\n {Request.Error}");
         }
 
+        /// <summary>
+        /// closes the Metro dialogues.
+        /// </summary>
+        /// <param name="obj"></param>
         public async void ExecuteClose(object obj)
         {
             if (obj == null && advView != null)
@@ -184,6 +200,11 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             await ((MetroWindow)Application.Current.MainWindow).ShowMetroDialogAsync(dial);
         }
 
+        /// <summary>
+        /// Sends the Client Request.
+        /// Uses the system Process which is used for OneConnect.
+        /// </summary>
+        /// <param name="obj"></param>
         public async void ClientConnect(object obj)
         {
             Log values = new Log(this);
@@ -267,6 +288,10 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Loads the Values from the selected History Log Item.
+        /// </summary>
+        /// <param name="value"></param>
         public void LoadValues(object value)
         {
             if (value != null)
@@ -298,6 +323,10 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             SaveHistory();
         }
 
+        /// <summary>
+        /// Saves the received File from the Server Request.
+        /// </summary>
+        /// <param name="obj"></param>
         public void SaveFile(object obj)
         {
             string path = null;
@@ -455,6 +484,11 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Sends the Server Request.
+        /// Posts given input fields to the OneOffixx Server.
+        /// </summary>
+        /// <param name="obj"></param>
         public async void SendRequest(object obj)
         {
             double length;
@@ -533,6 +567,10 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
 
+        /// <summary>
+        /// Examines if the XML input is valid based on a given .xsd from OneOffixx.
+        /// </summary>
+        /// <param name="obj"></param>
         public async void ExecuteValidation(object obj)
         {
             dial = new ResponseWindow();

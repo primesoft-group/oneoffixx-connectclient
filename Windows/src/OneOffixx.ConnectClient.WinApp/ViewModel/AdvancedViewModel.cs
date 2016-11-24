@@ -1,4 +1,11 @@
-﻿using OneOffixx.ConnectClient.WinApp.Helpers;
+﻿/* =============================================================================
+ * Copyright (C) by Sevitec AG
+ *
+ * Project: OneOffixx.ConnectClient.WinApp.ViewModel
+ * 
+ * =============================================================================
+ * */
+using OneOffixx.ConnectClient.WinApp.Helpers;
 using OneOffixx.ConnectClient.WinApp.HistoryStore;
 using OneOffixx.ConnectClient.WinApp.Model;
 using OneOffixx.ConnectClient.WinApp.ViewContent;
@@ -117,6 +124,13 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             this.request = request;
         }
 
+        /// <summary>
+        /// Sends Requests to the server with advanced Settings.
+        /// The number of Total Request and the number of Parallel requests can be given.
+        /// The Response of the Server won't be shown. The method only saves the Time which was used
+        /// from the Request to the Response.
+        /// </summary>
+        /// <param name="obj"></param>
         public void ExecuteAdvancedRequest(object obj)
         {
             canExecuteSend = false;
@@ -150,6 +164,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                         {
                             do
                             {
+                                //Interlock the counter value so the value cant be accessed by 2 threads at the same time
                                 var index = Interlocked.Increment(ref counter) - 1;
                                 if (index >= requests || close == true)
                                 {
@@ -169,7 +184,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                                 using (var content = result.Content)
                                 {
 
-
+                                    //Access a object in the main thread and lock the objact so that the ObservableCollection index wont be disturbed.
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
                                         MultipleRequests.Add(new Log() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });

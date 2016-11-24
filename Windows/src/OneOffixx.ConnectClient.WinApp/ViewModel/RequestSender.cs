@@ -1,3 +1,10 @@
+/* =============================================================================
+ * Copyright (C) by Sevitec AG
+ *
+ * Project: OneOffixx.ConnectClient.WinApp.ViewModel
+ * 
+ * =============================================================================
+ * */
 using System;
 using System.Net.Http;
 using System.Text;
@@ -7,6 +14,10 @@ using OneOffixx.ConnectClient.WinApp.Model;
 
 namespace OneOffixx.ConnectClient.WinApp.ViewModel
 {
+    /// <summary>
+    /// Helper Class to Send Requests parallel.
+    /// Its easier like this, than build the request in the Parallel.For function.
+    /// </summary>
     public class RequestSender
     {
         private HttpClient client;

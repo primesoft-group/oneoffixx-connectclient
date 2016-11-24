@@ -1,4 +1,12 @@
-﻿using ICSharpCode.AvalonEdit;
+﻿/* =============================================================================
+ * Copyright (C) by Sevitec AG
+ *
+ * Project: OneOffixx.ConnectClient.WinApp.ViewModel
+ * 
+ * =============================================================================
+ * */
+
+using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Editing;
 using OneOffixx.ConnectClient.WinApp.XHelper;

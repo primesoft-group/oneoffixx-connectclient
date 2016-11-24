@@ -1,4 +1,12 @@
-﻿using System;
+﻿/* =============================================================================
+ * Copyright (C) by Sevitec AG
+ *
+ * Project: OneOffixx.ConnectClient.WinApp.HistoryStore
+ * 
+ * =============================================================================
+ * */
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
