@@ -30,7 +30,7 @@ namespace OneOffixx.ConnectClient.WinApp.Views
         public Shell()
         {
             InitializeComponent();
-            this.DataContext = new ViewModel.RequestViewModel();
+            this.DataContext = new ViewModel.ShellViewModel();
 
             XmlSchemaSet schemas = new XmlSchemaSet();
             var asm = Assembly.GetExecutingAssembly();
@@ -59,12 +59,12 @@ namespace OneOffixx.ConnectClient.WinApp.Views
 
         private void TextBox_PreviewDrop(object sender, DragEventArgs e)
         {
-            ((ViewModel.RequestViewModel)this.DataContext).PreviewDrop(e);
+            ((ViewModel.ShellViewModel)this.DataContext).PreviewDrop(e);
         }
 
         private void TextBox_PreviewDragOver(object sender, DragEventArgs e)
         {
-            e.Effects = ((ViewModel.RequestViewModel)this.DataContext).PreviewDragOver(e);
+            e.Effects = ((ViewModel.ShellViewModel)this.DataContext).PreviewDragOver(e);
         }
         public List<XsdElementInformation> XsdInformation { get; set; }
 

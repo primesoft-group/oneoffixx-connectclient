@@ -220,7 +220,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         public void ExecuteClose(object obj)
         {
             close = true;
-            ((RequestViewModel)Application.Current.MainWindow.DataContext).ExecuteClose(close);
+            ((ShellViewModel)Application.Current.MainWindow.DataContext).ExecuteClose(close);
         }
 
         public AdvancedSettings GetContext()

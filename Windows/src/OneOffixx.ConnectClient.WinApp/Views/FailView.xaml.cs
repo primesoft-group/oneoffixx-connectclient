@@ -7,7 +7,7 @@ namespace OneOffixx.ConnectClient.WinApp.Views
     /// </summary>
     public partial class FailView : UserControl
     {
-        public FailView(ViewModel.RequestViewModel data)
+        public FailView(ViewModel.ShellViewModel data)
         {
             InitializeComponent();
             this.DataContext = data;

@@ -24,7 +24,7 @@ using OneOffixx.ConnectClient.WinApp.Views;
 
 namespace OneOffixx.ConnectClient.WinApp.ViewModel
 {
-    public class RequestViewModel : INotifyPropertyChanged
+    public class ShellViewModel : INotifyPropertyChanged
     {
         public ICommand Connect { get; set; }
         public ICommand Send { get; set; }
@@ -69,7 +69,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             return Environment.ExpandEnvironmentVariables("%AppData%\\OneOffixx.ConnectClient\\");
         }
 
-        public RequestViewModel()
+        public ShellViewModel()
         {
             log = new History();
             log.Logs = new List<LogEntryViewModel>();
@@ -526,7 +526,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             LogEntryViewModel values = new LogEntryViewModel(this);
             var date = System.DateTime.Now;
             values.Id = Guid.NewGuid();
-            values.Name = date.ToString("yyyy.MM.dd hh:mm:ss");
+            values.Name = date.ToString();
             values.Action = "Server";
             values.RequestEntry = new Request() { Uri = Request.Url, Content = Request.XmlString, Username = Request.Username, Password = Request.Password, Date = date };
             values.ResponseEntry = new Response();

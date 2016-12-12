@@ -101,7 +101,7 @@
     </Compile>
     <Compile Include="ViewModel\AdvancedViewModel.cs" />
     <Compile Include="ViewModel\RequestSender.cs" />
-    <Compile Include="ViewModel\RequestViewModel.cs" />
+    <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewWindows\ResponseWindow.xaml.cs">
       <DependentUpon>ResponseWindow.xaml</DependentUpon>
     </Compile>

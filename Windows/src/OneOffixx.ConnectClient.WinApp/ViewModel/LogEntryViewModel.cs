@@ -16,21 +16,21 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         private const string Favorite = "Star";
         private const string NotFavorite = "StarOutline";
 
-        private readonly ViewModel.RequestViewModel viewmodel;
+        private readonly ViewModel.ShellViewModel viewmodel;
         private bool isEditing;
         private string editName;
         private string name;
 
         public ICommand DeleteValue { get; set; }
         public ICommand LoadHistory { get; set; }
-        public ICommand ChangeIsFavourite { get; set; }
+        public ICommand ChangeIsFavorite { get; set; }
 
-        public LogEntryViewModel(ViewModel.RequestViewModel viewmodel)
+        public LogEntryViewModel(ViewModel.ShellViewModel viewmodel)
         {
             this.viewmodel = viewmodel;
             LoadHistory = new RelayCommand(viewmodel.LoadValues, param => true);
             DeleteValue = new RelayCommand(viewmodel.ExecuteDeleteValue, param => true);
-            ChangeIsFavourite = new RelayCommand(ExecuteChangeIsFavourite, param => true);
+            ChangeIsFavorite = new RelayCommand(ExecuteChangeIsFavorite, param => true);
         }
 
         public LogEntryViewModel()
@@ -142,7 +142,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
         
-        public void ExecuteChangeIsFavourite(object obj)
+        public void ExecuteChangeIsFavorite(object obj)
         {
             LogEntryViewModel item = (LogEntryViewModel)obj;
             if (item.IsFavorite)

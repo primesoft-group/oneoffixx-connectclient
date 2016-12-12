@@ -135,7 +135,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             set
             {
                 _favoriteLog = value;
-                RaisePropertyChanged("FavoriteLog");
+                RaisePropertyChanged(nameof(FavoriteLog));
             }
         }
 

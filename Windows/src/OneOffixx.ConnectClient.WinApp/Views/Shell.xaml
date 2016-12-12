@@ -96,7 +96,7 @@
                                                             </Button.Style>
                                                             <fa:ImageAwesome Icon="Trash"  />
                                                         </Button>
-                                                        <Button HorizontalAlignment="Right" Height="16" Margin="8,4,24,4" Command="{Binding Path=ChangeIsFavourite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+                                                        <Button HorizontalAlignment="Right" Height="16" Margin="8,4,24,4" Command="{Binding Path=ChangeIsFavorite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Button.Style>
                                                                 <Style TargetType="Button">
                                                                     <Setter Property="Visibility" Value="Hidden"/>
@@ -134,7 +134,7 @@
                                 </Grid>
                                 <Grid>
                                     <ListBox ItemContainerStyle="{StaticResource ActiveDocFuncListBoxItem}" Name="ListBox2" ScrollViewer.VerticalScrollBarVisibility="Auto" SelectedItem="{Binding Path=SelectedLogItem }"
-                                ItemsSource="{Binding Path=Request.FavouriteLog, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250">
+                                ItemsSource="{Binding Path=Request.FavoriteLog, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250">
                                         <ListBox.InputBindings>
                                             <KeyBinding Key="F2" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EditHistoryName}" CommandParameter="{Binding SelectedItem, ElementName=ListBox2}" />
                                             <KeyBinding Key="Enter" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" CommandParameter="{Binding SelectedItem, ElementName=ListBox2}" />
@@ -177,7 +177,7 @@
                                                             </Button.Style>
                                                             <fa:ImageAwesome Icon="Trash"  />
                                                         </Button>
-                                                        <Button HorizontalAlignment="Right" Height="16" Margin="8,4,24,4" Command="{Binding Path=ChangeIsFavourite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
+                                                        <Button HorizontalAlignment="Right" Height="16" Margin="8,4,24,4" Command="{Binding Path=ChangeIsFavorite, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Button.Style>
                                                                 <Style TargetType="Button">
                                                                     <Setter Property="Visibility" Value="Hidden"/>
