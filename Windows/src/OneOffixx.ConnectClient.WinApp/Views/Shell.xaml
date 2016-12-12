@@ -1,12 +1,10 @@
-﻿<UserControl x:Class="OneOffixx.ConnectClient.WinApp.ViewContent.RequestView"
+﻿<UserControl x:Class="OneOffixx.ConnectClient.WinApp.Views.Shell"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:OneOffixx.ConnectClient.WinApp.ViewContent"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:data ="clr-namespace:OneOffixx.ConnectClient.WinApp.Model"
              xmlns:viewModel ="clr-namespace:OneOffixx.ConnectClient.WinApp.ViewModel"
-             xmlns:views = "clr-namespace:OneOffixx.ConnectClient.WinApp.ViewContent"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:w="clr-namespace:OneOffixx.ConnectClient.WinApp.Helpers"
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
@@ -129,7 +127,7 @@
                                 </Grid>
                             </DockPanel>
                         </TabItem>
-                        <TabItem Header="Favourites">
+                        <TabItem Header="Favorites">
                             <DockPanel>
                                 <Grid DockPanel.Dock="Bottom" Margin="0,20,0,20">
                                     <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right" Content="Clear" Command="{Binding Path=Clear}"/>

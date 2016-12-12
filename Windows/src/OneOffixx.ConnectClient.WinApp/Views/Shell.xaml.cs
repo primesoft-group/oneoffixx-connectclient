@@ -6,11 +6,6 @@
  * =============================================================================
  * */
 
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Editing;
-using OneOffixx.ConnectClient.WinApp.XHelper;
-using OneOffixx.ConnectClient.WinApp.XmlCompletion;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,15 +17,17 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Schema;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Editing;
+using OneOffixx.ConnectClient.WinApp.XHelper;
+using OneOffixx.ConnectClient.WinApp.XmlCompletion;
 
-namespace OneOffixx.ConnectClient.WinApp.ViewContent
+namespace OneOffixx.ConnectClient.WinApp.Views
 {
-    /// <summary>
-    /// Interaction logic for RequestView.xaml
-    /// </summary>
-    public partial class RequestView : UserControl
+    public partial class Shell : UserControl
     {
-        public RequestView()
+        public Shell()
         {
             InitializeComponent();
             this.DataContext = new ViewModel.RequestViewModel();

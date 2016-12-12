@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace OneOffixx.ConnectClient.WinApp.ViewContent
+namespace OneOffixx.ConnectClient.WinApp.Views
 {
     /// <summary>
     /// Interaction logic for SuccessView.xaml

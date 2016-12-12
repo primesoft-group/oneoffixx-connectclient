@@ -1,16 +1,8 @@
-﻿/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.Model
- * 
- * =============================================================================
- * */
-
-using OneOffixx.ConnectClient.WinApp.HistoryStore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using OneOffixx.ConnectClient.WinApp.ViewModel;
 
 namespace OneOffixx.ConnectClient.WinApp.Model
 {
@@ -23,8 +15,8 @@ namespace OneOffixx.ConnectClient.WinApp.Model
         private string xmlString;
         private bool canExecute;
         private int selectedIndex;
-        private ObservableCollection<Log> log;
-        private ObservableCollection<Log> favouriteLog;
+        private ObservableCollection<LogEntryViewModel> log;
+        private ObservableCollection<LogEntryViewModel> _favoriteLog;
         private string error;
         private bool canExecuteClient;
         private System.Windows.Visibility visibility;
@@ -120,7 +112,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             }
         }
 
-        public ObservableCollection<Log> Log
+        public ObservableCollection<LogEntryViewModel> Log
         {
             get
             {
@@ -129,21 +121,21 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             set
             {
                 log = value;
-                FavouriteLog = new ObservableCollection<Log>(log.Where(x => x.IsFavourite));
+                FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Where(x => x.IsFavorite));
                 RaisePropertyChanged("Log");
             }
         }
 
-        public ObservableCollection<Log> FavouriteLog
+        public ObservableCollection<LogEntryViewModel> FavoriteLog
         {
             get
             {
-                return favouriteLog;
+                return _favoriteLog;
             }
             set
             {
-                favouriteLog = value;
-                RaisePropertyChanged("FavouriteLog");
+                _favoriteLog = value;
+                RaisePropertyChanged("FavoriteLog");
             }
         }
 

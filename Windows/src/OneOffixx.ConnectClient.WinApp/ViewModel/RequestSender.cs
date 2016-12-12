@@ -1,10 +1,3 @@
-/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.ViewModel
- * 
- * =============================================================================
- * */
 using System;
 using System.Net.Http;
 using System.Text;

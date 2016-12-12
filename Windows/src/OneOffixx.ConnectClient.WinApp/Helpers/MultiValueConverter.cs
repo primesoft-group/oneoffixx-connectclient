@@ -1,11 +1,11 @@
-﻿using OneOffixx.ConnectClient.WinApp.HistoryStore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using OneOffixx.ConnectClient.WinApp.ViewModel;
 
 namespace OneOffixx.ConnectClient.WinApp.Helpers
 {
@@ -13,8 +13,8 @@ namespace OneOffixx.ConnectClient.WinApp.Helpers
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var dictionary = new Dictionary<Log, string>();
-            dictionary.Add((Log)values[0], values[1].ToString());
+            var dictionary = new Dictionary<LogEntryViewModel, string>();
+            dictionary.Add((LogEntryViewModel)values[0], values[1].ToString());
             return dictionary;
         }
 

@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OneOffixx.ConnectClient.WinApp"
-        xmlns:views = "clr-namespace:OneOffixx.ConnectClient.WinApp.ViewContent"
+        xmlns:views = "clr-namespace:OneOffixx.ConnectClient.WinApp.Views"
         mc:Ignorable="d"
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         Title="OneOffixx Connect Client" Height="800" Width="1100" MinHeight="400" MinWidth="700"
@@ -92,6 +92,6 @@
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
     <Grid>
-        <views:RequestView x:Name="RequestViewControl"/>
+        <views:Shell x:Name="RequestViewControl"/>
     </Grid>
 </Controls:MetroWindow >

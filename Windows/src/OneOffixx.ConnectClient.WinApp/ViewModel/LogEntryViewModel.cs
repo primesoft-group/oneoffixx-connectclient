@@ -1,28 +1,20 @@
-﻿/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.HistoryStore
- * 
- * =============================================================================
- * */
-
-using OneOffixx.ConnectClient.WinApp.Helpers;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+using OneOffixx.ConnectClient.WinApp.Helpers;
 
-namespace OneOffixx.ConnectClient.WinApp.HistoryStore
+namespace OneOffixx.ConnectClient.WinApp.ViewModel
 {
-    public class Log : INotifyPropertyChanged
+    public class LogEntryViewModel : INotifyPropertyChanged
     {
         private const string Green = "#19E866";
         private const string Red = "#FF0000";
         private const string ServerIcon = "Cloud";
         private const string ClientIcon = "Desktop";
         private const string Favorite = "Star";
-        private const string NotFavourite = "StarOutline";
+        private const string NotFavorite = "StarOutline";
 
         private readonly ViewModel.RequestViewModel viewmodel;
         private bool isEditing;
@@ -33,7 +25,7 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
         public ICommand LoadHistory { get; set; }
         public ICommand ChangeIsFavourite { get; set; }
 
-        public Log(ViewModel.RequestViewModel viewmodel)
+        public LogEntryViewModel(ViewModel.RequestViewModel viewmodel)
         {
             this.viewmodel = viewmodel;
             LoadHistory = new RelayCommand(viewmodel.LoadValues, param => true);
@@ -41,11 +33,11 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
             ChangeIsFavourite = new RelayCommand(ExecuteChangeIsFavourite, param => true);
         }
 
-        public Log()
+        public LogEntryViewModel()
         {
         }
 
-        public Guid LogGuid { get; set; }
+        public Guid Id { get; set; }
         public string Name
         {
             get
@@ -80,7 +72,7 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
         public string Action { get; set; }
         public Request RequestEntry { get; set; }
         public Response ResponseEntry { get; set; }
-        public bool IsFavourite { get; set; }
+        public bool IsFavorite { get; set; }
 
         public bool IsEditing
         {
@@ -139,9 +131,9 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
         {
             get
             {
-                if(IsFavourite == false)
+                if(IsFavorite == false)
                 {
-                    return NotFavourite;
+                    return NotFavorite;
                 }
                 else
                 {
@@ -152,20 +144,20 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
         
         public void ExecuteChangeIsFavourite(object obj)
         {
-            Log item = (Log)obj;
-            if (item.IsFavourite)
+            LogEntryViewModel item = (LogEntryViewModel)obj;
+            if (item.IsFavorite)
             {
-                viewmodel.Request.Log.Where(x => x.Equals(item)).FirstOrDefault().IsFavourite = false;
-                viewmodel.Request.FavouriteLog.Remove(item);
-                item.IsFavourite = false;
+                viewmodel.Request.Log.Where(x => x.Equals(item)).FirstOrDefault().IsFavorite = false;
+                viewmodel.Request.FavoriteLog.Remove(item);
+                item.IsFavorite = false;
                 RaisePropertyChanged("FavoriseIcon");
             }
             else
             {
-                viewmodel.Request.Log.Where(x => x.Equals(item)).FirstOrDefault().IsFavourite = true;
-                this.IsFavourite = true;
-                viewmodel.Request.FavouriteLog.Add(item);
-                viewmodel.Request.FavouriteLog = new System.Collections.ObjectModel.ObservableCollection<Log>(viewmodel.Request.FavouriteLog.OrderByDescending(x => x.RequestEntry.Date));
+                viewmodel.Request.Log.Where(x => x.Equals(item)).FirstOrDefault().IsFavorite = true;
+                this.IsFavorite = true;
+                viewmodel.Request.FavoriteLog.Add(item);
+                viewmodel.Request.FavoriteLog = new System.Collections.ObjectModel.ObservableCollection<LogEntryViewModel>(viewmodel.Request.FavoriteLog.OrderByDescending(x => x.RequestEntry.Date));
                 RaisePropertyChanged("FavoriseIcon");
             }
             viewmodel.SaveHistory();

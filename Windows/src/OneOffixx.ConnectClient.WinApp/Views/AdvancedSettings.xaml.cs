@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace OneOffixx.ConnectClient.WinApp.ViewContent
+namespace OneOffixx.ConnectClient.WinApp.Views
 {
     /// <summary>
     /// Interaction logic for AdvancedSettings.xaml
