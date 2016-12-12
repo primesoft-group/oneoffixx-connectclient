@@ -8,6 +8,7 @@
 
 using OneOffixx.ConnectClient.WinApp.HistoryStore;
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -23,6 +24,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
         private bool canExecute;
         private int selectedIndex;
         private ObservableCollection<Log> log;
+        private ObservableCollection<Log> favouriteLog;
         private string error;
         private bool canExecuteClient;
         private System.Windows.Visibility visibility;
@@ -127,7 +129,21 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             set
             {
                 log = value;
+                FavouriteLog = new ObservableCollection<Log>(log.Where(x => x.IsFavourite));
                 RaisePropertyChanged("Log");
+            }
+        }
+
+        public ObservableCollection<Log> FavouriteLog
+        {
+            get
+            {
+                return favouriteLog;
+            }
+            set
+            {
+                favouriteLog = value;
+                RaisePropertyChanged("FavouriteLog");
             }
         }
 

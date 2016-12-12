@@ -18,6 +18,8 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
     [XmlType(AnonymousType = true)]
     public class LogEntrys
     {
+        public Guid LogGuid { get; set; }
+        public string Name { get; set; }
         public string Action { get; set; }
 
         [XmlElement(typeof(RequestEntry), ElementName = "RequestEntry")]
@@ -25,6 +27,7 @@ namespace OneOffixx.ConnectClient.WinApp.HistoryStore
 
         [XmlElement(typeof(ResponseEntry), ElementName = "ResponseEntry")]
         public ResponseEntry ResponseEntry { get; set; }
+        public bool IsFavourite { get; set; }
     }
 
     [XmlType(AnonymousType = true)]
