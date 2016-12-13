@@ -302,7 +302,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             dialSettings.FirstAuxiliaryButtonText = "Cancel";
             dialSettings.MaximumBodyHeight = 50;
             dialSettings.DefaultButtonFocus = MessageDialogResult.Affirmative;
-            dialSettings.ColorScheme = MetroDialogColorScheme.Accented;
+
             var res = await _dialogCordinator.ShowMessageAsync(this, "Delete History", "Choose what you want to delete:", style: MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, settings: dialSettings);
             if(res == MessageDialogResult.Affirmative)
             {
