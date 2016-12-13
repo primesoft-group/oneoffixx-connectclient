@@ -22,6 +22,7 @@ using ICSharpCode.AvalonEdit.CodeCompletion;
 using ICSharpCode.AvalonEdit.Editing;
 using OneOffixx.ConnectClient.WinApp.XHelper;
 using OneOffixx.ConnectClient.WinApp.XmlCompletion;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace OneOffixx.ConnectClient.WinApp.Views
 {
@@ -30,7 +31,7 @@ namespace OneOffixx.ConnectClient.WinApp.Views
         public Shell()
         {
             InitializeComponent();
-            this.DataContext = new ViewModel.ShellViewModel();
+            this.DataContext = new ViewModel.ShellViewModel(DialogCoordinator.Instance);
 
             XmlSchemaSet schemas = new XmlSchemaSet();
             var asm = Assembly.GetExecutingAssembly();
@@ -270,6 +271,12 @@ namespace OneOffixx.ConnectClient.WinApp.Views
             //builder.AppendLine("GetElementAtCursor: " + GetElementAtCursor.ToString());
             //this.CurrentPath.Text = builder.ToString();
 
+        }
+
+        private void TextBox_VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            Keyboard.Focus(textBox);
         }
     }
 }

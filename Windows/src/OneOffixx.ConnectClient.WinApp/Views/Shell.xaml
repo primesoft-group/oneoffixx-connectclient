@@ -10,6 +10,9 @@
              xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
              xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:behaviour="clr-namespace:OneOffixx.ConnectClient.WinApp.Helpers"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             Dialog:DialogParticipation.Register="{Binding}"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1100">
     <UserControl.Resources>
@@ -56,22 +59,32 @@
                                 ItemsSource="{Binding Path=Request.Log, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250">
                                         <ListBox.InputBindings>
                                             <KeyBinding Key="F2" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EditHistoryName}" CommandParameter="{Binding SelectedItem, ElementName=ListBox1}" />
-                                            <KeyBinding Key="Enter" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" CommandParameter="{Binding SelectedItem, ElementName=ListBox1}" />
+                                            <KeyBinding Key="Enter" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
+                                            <KeyBinding Key="Esc" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
                                         </ListBox.InputBindings>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseDoubleClick">
                                                 <i:InvokeCommandAction Command="{Binding Path=LoadHistory}"
                                                      CommandParameter="{Binding SelectedItem, ElementName=ListBox1}" />
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Border>
-                                                    <Grid>
+                                                    <Grid Height="26">
                                                         <StackPanel Orientation="Horizontal" ToolTip="{Binding Path=HistoryToolTip}">
                                                             <fa:ImageAwesome Margin="4,0,0,0" Icon="{Binding Path=ActionIcon}" Height="16" Foreground="{Binding Path=ResponseColor}" />
                                                             <TextBlock Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="{Binding Path=IsEditing, Converter={StaticResource FalseToVisibleConverter}}" />
-                                                            <TextBox Name="NameBox1" Text="{Binding Path=EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="{Binding Path=IsEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+                                                            <TextBox IsVisibleChanged="TextBox_VisibleChanged" Name="NameBox1" Text="{Binding Path=EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="{Binding Path=IsEditing, Converter={StaticResource TrueToVisibleConverter}}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="LostFocus">
+                                                                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
                                                         </StackPanel>
                                                         <Button HorizontalAlignment="Right" Height="16" Margin="8,4,4,4" Command="{Binding Path=DeleteValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Button.Style>
@@ -114,6 +127,9 @@
                                                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True" >
                                                                             <Setter Property="Button.Visibility" Value="Visible"/>
                                                                         </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                                            <Setter Property="Button.Visibility" Value="Visible" />
+                                                                        </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>
                                                             </Button.Style>
@@ -137,22 +153,32 @@
                                 ItemsSource="{Binding Path=Request.FavoriteLog, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Width="250">
                                         <ListBox.InputBindings>
                                             <KeyBinding Key="F2" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EditHistoryName}" CommandParameter="{Binding SelectedItem, ElementName=ListBox2}" />
-                                            <KeyBinding Key="Enter" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" CommandParameter="{Binding SelectedItem, ElementName=ListBox2}" />
+                                            <KeyBinding Key="Enter" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
+                                            <KeyBinding Key="Esc" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
                                         </ListBox.InputBindings>
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="MouseDoubleClick">
                                                 <i:InvokeCommandAction Command="{Binding Path=LoadHistory}"
                                                      CommandParameter="{Binding SelectedItem, ElementName=ListBox2}" />
                                             </i:EventTrigger>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
+                                            </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Border>
-                                                    <Grid>
+                                                    <Grid Height="26">
                                                         <StackPanel Orientation="Horizontal" ToolTip="{Binding Path=HistoryToolTip}">
                                                             <fa:ImageAwesome Margin="4,0,0,0" Icon="{Binding Path=ActionIcon}" Height="16" Foreground="{Binding Path=ResponseColor}" />
                                                             <TextBlock Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="{Binding Path=IsEditing, Converter={StaticResource FalseToVisibleConverter}}" />
-                                                            <TextBox Text="{Binding Path=EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="{Binding Path=IsEditing, Converter={StaticResource TrueToVisibleConverter}}" />
+                                                            <TextBox IsVisibleChanged="TextBox_VisibleChanged" Name="NameBox2" Text="{Binding Path=EditName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="4,0,0,0" VerticalAlignment="Center" Visibility="{Binding Path=IsEditing, Converter={StaticResource TrueToVisibleConverter}}">
+                                                                <i:Interaction.Triggers>
+                                                                    <i:EventTrigger EventName="LostFocus">
+                                                                        <i:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.EnterHistoryNameChanges}" />
+                                                                    </i:EventTrigger>
+                                                                </i:Interaction.Triggers>
+                                                            </TextBox>
                                                         </StackPanel>
                                                         <Button HorizontalAlignment="Right" Height="16" Margin="8,4,4,4" Command="{Binding Path=DeleteValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CommandParameter="{Binding}">
                                                             <Button.Style>
@@ -194,6 +220,9 @@
                                                                         </DataTrigger>
                                                                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True" >
                                                                             <Setter Property="Button.Visibility" Value="Visible"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding Path=IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                                            <Setter Property="Button.Visibility" Value="Visible" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>

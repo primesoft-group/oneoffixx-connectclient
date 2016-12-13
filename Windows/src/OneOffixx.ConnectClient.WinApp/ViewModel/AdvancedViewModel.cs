@@ -46,7 +46,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (borderColorRequests != value)
                 {
                     borderColorRequests = value;
-                    RaisePropertyChanged("BorderColorRequests");
+                    RaisePropertyChanged(nameof(BorderColorRequests));
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (borderColorParallel != value)
                 {
                     borderColorParallel = value;
-                    RaisePropertyChanged("BorderColorParallel");
+                    RaisePropertyChanged(nameof(BorderColorParallel));
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     numberOfRequests = value;
                     if (numberOfRequests != "") { canExecuteSend = true; }
                     else { canExecuteSend = false; }
-                    RaisePropertyChanged("NumberOfRequests");
+                    RaisePropertyChanged(nameof(NumberOfRequests));
                 }
             }
         }
@@ -95,7 +95,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (parallelRequests != value)
                 {
                     parallelRequests = value;
-                    RaisePropertyChanged("NumberOfRequestsParallel");
+                    RaisePropertyChanged(nameof(NumberOfRequestsParallel));
                 }
             }
         }
@@ -110,7 +110,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (multipleRequests != value)
                 {
                     multipleRequests = value;
-                    RaisePropertyChanged("MultipleRequests");
+                    RaisePropertyChanged(nameof(MultipleRequests));
                 }
             }
         }

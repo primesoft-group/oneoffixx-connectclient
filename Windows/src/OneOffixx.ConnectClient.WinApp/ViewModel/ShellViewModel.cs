@@ -21,6 +21,7 @@ using System.Xml.Linq;
 using System.Xml.Schema;
 using OneOffixx.ConnectClient.WinApp.Repository;
 using OneOffixx.ConnectClient.WinApp.Views;
+using MahApps.Metro;
 
 namespace OneOffixx.ConnectClient.WinApp.ViewModel
 {
@@ -63,14 +64,17 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         private bool validation = true;
         private string validationText;
         private readonly string historyFileName = "History.xml";
+        private LogEntryViewModel editNameItem = new LogEntryViewModel();
+        private IDialogCoordinator _dialogCordinator;
 
         private string GetHistorySavePath()
         {
             return Environment.ExpandEnvironmentVariables("%AppData%\\OneOffixx.ConnectClient\\");
         }
 
-        public ShellViewModel()
+        public ShellViewModel(IDialogCoordinator dialCordinator)
         {
+            _dialogCordinator = dialCordinator;
             log = new History();
             log.Logs = new List<LogEntryViewModel>();
             LoadHistoryFromFile();
@@ -119,7 +123,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (pwVisibility != value)
                 {
                     pwVisibility = value;
-                    RaisePropertyChanged("PwVisibility");
+                    RaisePropertyChanged(nameof(PwVisibility));
                 }
             }
         }
@@ -135,23 +139,22 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (SelectedLogEntryViewModelItem != value)
                 {
                     _selectedLogEntryViewModelItem = value;
-                    RaisePropertyChanged("SelectedLogItem");
+                    RaisePropertyChanged(nameof(SelectedLogEntryViewModelItem));
                 }
             }
         }
 
         public void ExecuteEditHistoryName(object obj)
         {
-            var log = (LogEntryViewModel)obj;
-            log.IsEditing = true;
+            editNameItem = (LogEntryViewModel)obj;
+            editNameItem.IsEditing = true;
         }
 
         public void ExecuteEnterHistoryNameChanges(object obj)
         {
-            var log = (LogEntryViewModel)obj;
-            var name = log.EditName;
-            log.Name = name;
-            log.IsEditing = false;
+            var name = editNameItem.EditName;
+            editNameItem.Name = name;
+            editNameItem.IsEditing = false;
             SaveHistory();
         }
 
@@ -291,14 +294,44 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
 
-        public void ClearHistory(object obj)
+        public async void ClearHistory(object obj)
         {
-            log.Logs.Clear();
-            Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs);
-            Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
-            if (File.Exists(Path.Combine(GetHistorySavePath() + historyFileName)))
+            var dialSettings = new MetroDialogSettings();
+            dialSettings.NegativeButtonText = "Delete everything but favorite entries";
+            dialSettings.AffirmativeButtonText = "Delete everything";
+            dialSettings.FirstAuxiliaryButtonText = "Cancel";
+            dialSettings.MaximumBodyHeight = 50;
+            dialSettings.DefaultButtonFocus = MessageDialogResult.Affirmative;
+            dialSettings.ColorScheme = MetroDialogColorScheme.Accented;
+            var res = await _dialogCordinator.ShowMessageAsync(this, "Delete History", "Choose what you want to delete:", style: MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, settings: dialSettings);
+            if(res == MessageDialogResult.Affirmative)
             {
-                File.Delete(Path.Combine(GetHistorySavePath() + historyFileName));
+                log.Logs.Clear();
+                Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs);
+                Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
+                if (File.Exists(Path.Combine(GetHistorySavePath() + historyFileName)))
+                {
+                    File.Delete(Path.Combine(GetHistorySavePath() + historyFileName));
+                }
+            }
+            else
+            {
+                List<LogEntryViewModel> logsToRemove = new List<LogEntryViewModel>();
+                foreach(var item in log.Logs)
+                {
+                    if(item.IsFavorite == false)
+                    {
+                        logsToRemove.Add(item);
+                    }
+                }
+                foreach(var item in logsToRemove)
+                {
+                    log.Logs.Remove(item);
+                }
+                SelectedLogEntryViewModelItem = log.Logs.FirstOrDefault();
+                Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs);
+                Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
+                SaveHistory();
             }
         }
 
@@ -732,7 +765,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (isFlyoutOpen != value)
                 {
                     isFlyoutOpen = value;
-                    RaisePropertyChanged("IsFlyoutOpen");
+                    RaisePropertyChanged(nameof(IsFlyoutOpen));
                 }
             }
         }

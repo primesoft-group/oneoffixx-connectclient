@@ -31,7 +31,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             set
             {
                 error = value;
-                RaisePropertyChanged("Error");
+                RaisePropertyChanged(nameof(Error));
             }
         }
 
@@ -43,7 +43,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (selectedIndex != value)
                 {
                     selectedIndex = value;
-                    RaisePropertyChanged("SelectedIndex");
+                    RaisePropertyChanged(nameof(SelectedIndex));
                 }
             }
         }
@@ -59,7 +59,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (username != value)
                 {
                     username = value;
-                    RaisePropertyChanged("Username");
+                    RaisePropertyChanged(nameof(Username));
                 }
             }
         }
@@ -75,7 +75,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (visibility != value)
                 {
                     visibility = value;
-                    RaisePropertyChanged("WarningVisibility");
+                    RaisePropertyChanged(nameof(WarningVisibility));
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (errorMessage != value)
                 {
                     errorMessage = value;
-                    RaisePropertyChanged("WarningMessage");
+                    RaisePropertyChanged(nameof(WarningMessage));
                 }
             }
         }
@@ -107,7 +107,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (password != value)
                 {
                     password = value;
-                    RaisePropertyChanged("Password");
+                    RaisePropertyChanged(nameof(Password));
                 }
             }
         }
@@ -122,7 +122,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             {
                 log = value;
                 FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Where(x => x.IsFavorite));
-                RaisePropertyChanged("Log");
+                RaisePropertyChanged(nameof(Log));
             }
         }
 
@@ -150,7 +150,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (url != value)
                 {
                     url = value;
-                    RaisePropertyChanged("Url");
+                    RaisePropertyChanged(nameof(Url));
                 }
             }
         }
@@ -166,7 +166,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (directory != value)
                 {
                     directory = value;
-                    RaisePropertyChanged("Directory");
+                    RaisePropertyChanged(nameof(Directory));
                 }
             }
         }
@@ -182,8 +182,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (xmlString != value)
                 {
                     xmlString = value;
-                    RaisePropertyChanged("XmlString");
-
+                    RaisePropertyChanged(nameof(XmlString));
                 }
             }
         }

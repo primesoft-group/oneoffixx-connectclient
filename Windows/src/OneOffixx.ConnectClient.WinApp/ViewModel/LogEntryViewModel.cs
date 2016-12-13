@@ -50,7 +50,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 {
                     name = value;
                     EditName = name;
-                    RaisePropertyChanged("Name");
+                    RaisePropertyChanged(nameof(Name));
                 }
             }
         }
@@ -65,7 +65,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if(editName != value)
                 {
                     editName = value;
-                    RaisePropertyChanged("EditName");
+                    RaisePropertyChanged(nameof(EditName));
                 }
             }
         }
@@ -80,7 +80,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             set
             {
                 isEditing = value;
-                RaisePropertyChanged("IsEditing");
+                RaisePropertyChanged(nameof(IsEditing));
             }
         }
 
@@ -150,7 +150,8 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 viewmodel.Request.Log.Where(x => x.Equals(item)).FirstOrDefault().IsFavorite = false;
                 viewmodel.Request.FavoriteLog.Remove(item);
                 item.IsFavorite = false;
-                RaisePropertyChanged("FavoriseIcon");
+                RaisePropertyChanged(nameof(FavoriseIcon));
+                RaisePropertyChanged(nameof(IsFavorite));
             }
             else
             {
@@ -158,7 +159,8 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 this.IsFavorite = true;
                 viewmodel.Request.FavoriteLog.Add(item);
                 viewmodel.Request.FavoriteLog = new System.Collections.ObjectModel.ObservableCollection<LogEntryViewModel>(viewmodel.Request.FavoriteLog.OrderByDescending(x => x.RequestEntry.Date));
-                RaisePropertyChanged("FavoriseIcon");
+                RaisePropertyChanged(nameof(FavoriseIcon));
+                RaisePropertyChanged(nameof(IsFavorite));
             }
             viewmodel.SaveHistory();
         }
