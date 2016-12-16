@@ -6,11 +6,6 @@
  * =============================================================================
  * */
 
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Editing;
-using OneOffixx.ConnectClient.WinApp.XHelper;
-using OneOffixx.ConnectClient.WinApp.XmlCompletion;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,18 +17,21 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Schema;
+using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Editing;
+using OneOffixx.ConnectClient.WinApp.XHelper;
+using OneOffixx.ConnectClient.WinApp.XmlCompletion;
+using MahApps.Metro.Controls.Dialogs;
 
-namespace OneOffixx.ConnectClient.WinApp.ViewContent
+namespace OneOffixx.ConnectClient.WinApp.Views
 {
-    /// <summary>
-    /// Interaction logic for RequestView.xaml
-    /// </summary>
-    public partial class RequestView : UserControl
+    public partial class Shell : UserControl
     {
-        public RequestView()
+        public Shell()
         {
             InitializeComponent();
-            this.DataContext = new ViewModel.RequestViewModel();
+            this.DataContext = new ViewModel.ShellViewModel(DialogCoordinator.Instance);
 
             XmlSchemaSet schemas = new XmlSchemaSet();
             var asm = Assembly.GetExecutingAssembly();
@@ -62,12 +60,12 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
 
         private void TextBox_PreviewDrop(object sender, DragEventArgs e)
         {
-            ((ViewModel.RequestViewModel)this.DataContext).PreviewDrop(e);
+            ((ViewModel.ShellViewModel)this.DataContext).PreviewDrop(e);
         }
 
         private void TextBox_PreviewDragOver(object sender, DragEventArgs e)
         {
-            e.Effects = ((ViewModel.RequestViewModel)this.DataContext).PreviewDragOver(e);
+            e.Effects = ((ViewModel.ShellViewModel)this.DataContext).PreviewDragOver(e);
         }
         public List<XsdElementInformation> XsdInformation { get; set; }
 
@@ -273,6 +271,12 @@ namespace OneOffixx.ConnectClient.WinApp.ViewContent
             //builder.AppendLine("GetElementAtCursor: " + GetElementAtCursor.ToString());
             //this.CurrentPath.Text = builder.ToString();
 
+        }
+
+        private void TextBox_VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            Keyboard.Focus(textBox);
         }
     }
 }

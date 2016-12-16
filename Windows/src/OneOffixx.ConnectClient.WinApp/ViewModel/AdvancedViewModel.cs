@@ -6,9 +6,7 @@
  * =============================================================================
  * */
 using OneOffixx.ConnectClient.WinApp.Helpers;
-using OneOffixx.ConnectClient.WinApp.HistoryStore;
 using OneOffixx.ConnectClient.WinApp.Model;
-using OneOffixx.ConnectClient.WinApp.ViewContent;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using OneOffixx.ConnectClient.WinApp.Views;
 
 namespace OneOffixx.ConnectClient.WinApp.ViewModel
 {
@@ -28,7 +27,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         private string parallelRequests;
         private AdvancedSettings advSettings;
         private RequestModel request;
-        private ObservableCollection<Log> multipleRequests;
+        private ObservableCollection<LogEntryViewModel> multipleRequests;
         private bool canExecuteSend = false;
         private int parallel;
         private string borderColorParallel = "#FFFFFF";
@@ -47,7 +46,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (borderColorRequests != value)
                 {
                     borderColorRequests = value;
-                    RaisePropertyChanged("BorderColorRequests");
+                    RaisePropertyChanged(nameof(BorderColorRequests));
                 }
             }
         }
@@ -62,7 +61,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (borderColorParallel != value)
                 {
                     borderColorParallel = value;
-                    RaisePropertyChanged("BorderColorParallel");
+                    RaisePropertyChanged(nameof(BorderColorParallel));
                 }
             }
         }
@@ -81,7 +80,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     numberOfRequests = value;
                     if (numberOfRequests != "") { canExecuteSend = true; }
                     else { canExecuteSend = false; }
-                    RaisePropertyChanged("NumberOfRequests");
+                    RaisePropertyChanged(nameof(NumberOfRequests));
                 }
             }
         }
@@ -96,11 +95,11 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (parallelRequests != value)
                 {
                     parallelRequests = value;
-                    RaisePropertyChanged("NumberOfRequestsParallel");
+                    RaisePropertyChanged(nameof(NumberOfRequestsParallel));
                 }
             }
         }
-        public ObservableCollection<Log> MultipleRequests
+        public ObservableCollection<LogEntryViewModel> MultipleRequests
         {
             get
             {
@@ -111,7 +110,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (multipleRequests != value)
                 {
                     multipleRequests = value;
-                    RaisePropertyChanged("MultipleRequests");
+                    RaisePropertyChanged(nameof(MultipleRequests));
                 }
             }
         }
@@ -138,7 +137,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             decimal time = 0;
             this.advSettings.Timeused.Text = string.Empty;
 
-            MultipleRequests = new ObservableCollection<Log>();
+            MultipleRequests = new ObservableCollection<LogEntryViewModel>();
             try
             {
                 if (Int32.Parse(NumberOfRequests) > 0 && int.TryParse(NumberOfRequests, out requests) == true)
@@ -187,7 +186,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                                     //Access a object in the main thread and lock the objact so that the ObservableCollection index wont be disturbed.
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
-                                        MultipleRequests.Add(new Log() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });
+                                        MultipleRequests.Add(new LogEntryViewModel() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });
                                         advSettings.PbStatus.Value += 1;
 
                                         if (advSettings.PbStatus.Value >= requests)
@@ -221,7 +220,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         public void ExecuteClose(object obj)
         {
             close = true;
-            ((RequestViewModel)Application.Current.MainWindow.DataContext).ExecuteClose(close);
+            ((ShellViewModel)Application.Current.MainWindow.DataContext).ExecuteClose(close);
         }
 
         public AdvancedSettings GetContext()

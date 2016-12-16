@@ -1,17 +1,7 @@
-﻿/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.ViewModel
- * 
- * =============================================================================
- * */
-
-using MahApps.Metro.Controls;
+﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using OneOffixx.ConnectClient.WinApp.Helpers;
-using OneOffixx.ConnectClient.WinApp.HistoryStore;
 using OneOffixx.ConnectClient.WinApp.Model;
-using OneOffixx.ConnectClient.WinApp.ViewContent;
 using OneOffixx.ConnectClient.WinApp.ViewWindows;
 using System;
 using System.Collections.Generic;
@@ -29,10 +19,13 @@ using System.Windows.Input;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
+using OneOffixx.ConnectClient.WinApp.Repository;
+using OneOffixx.ConnectClient.WinApp.Views;
+using MahApps.Metro;
 
 namespace OneOffixx.ConnectClient.WinApp.ViewModel
 {
-    public class RequestViewModel : INotifyPropertyChanged
+    public class ShellViewModel : INotifyPropertyChanged
     {
         public ICommand Connect { get; set; }
         public ICommand Send { get; set; }
@@ -50,6 +43,8 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         public ICommand OpenAdvSettings { get; set; }
         public ICommand OpenUrl { get; set; }
         public ICommand Validate { get; set; }
+        public ICommand EditHistoryName { get; set; }
+        public ICommand EnterHistoryNameChanges { get; set; }
 
         public RequestModel Request
         {
@@ -65,20 +60,23 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         private History log;
         private bool isErrorAppeared = false;
         private ResponseWindow dial;
-        private Log selectedLogItem;
+        private LogEntryViewModel _selectedLogEntryViewModelItem;
         private bool validation = true;
         private string validationText;
         private readonly string historyFileName = "History.xml";
+        private LogEntryViewModel editNameItem = new LogEntryViewModel();
+        private IDialogCoordinator _dialogCordinator;
 
         private string GetHistorySavePath()
         {
             return Environment.ExpandEnvironmentVariables("%AppData%\\OneOffixx.ConnectClient\\");
         }
 
-        public RequestViewModel()
+        public ShellViewModel(IDialogCoordinator dialCordinator)
         {
+            _dialogCordinator = dialCordinator;
             log = new History();
-            log.Logs = new List<Log>();
+            log.Logs = new List<LogEntryViewModel>();
             LoadHistoryFromFile();
             Application.Current.MainWindow.DataContext = this;
             Validate = new RelayCommand(ExecuteValidation, param => true);
@@ -95,6 +93,9 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             ClearInput = new RelayCommand(ExecuteClearInput, param => true);
             LoadHistory = new RelayCommand(LoadValues, param => true);
             OpenAdvSettings = new RelayCommand(ExecuteOpenAdvSettings, param => Request.CanExecute);
+            EditHistoryName = new RelayCommand(ExecuteEditHistoryName, param => true);
+            EnterHistoryNameChanges = new RelayCommand(ExecuteEnterHistoryNameChanges, param => true);
+
         }
 
         private void ExecuteClearInput(object obj)
@@ -122,25 +123,39 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (pwVisibility != value)
                 {
                     pwVisibility = value;
-                    RaisePropertyChanged("PwVisibility");
+                    RaisePropertyChanged(nameof(PwVisibility));
                 }
             }
         }
 
-        public Log SelectedLogItem
+        public LogEntryViewModel SelectedLogEntryViewModelItem
         {
             get
             {
-                return selectedLogItem;
+                return _selectedLogEntryViewModelItem;
             }
             set
             {
-                if (SelectedLogItem != value)
+                if (SelectedLogEntryViewModelItem != value)
                 {
-                    selectedLogItem = value;
-                    RaisePropertyChanged("SelectedLogItem");
+                    _selectedLogEntryViewModelItem = value;
+                    RaisePropertyChanged(nameof(SelectedLogEntryViewModelItem));
                 }
             }
+        }
+
+        public void ExecuteEditHistoryName(object obj)
+        {
+            editNameItem = (LogEntryViewModel)obj;
+            editNameItem.IsEditing = true;
+        }
+
+        public void ExecuteEnterHistoryNameChanges(object obj)
+        {
+            var name = editNameItem.EditName;
+            editNameItem.Name = name;
+            editNameItem.IsEditing = false;
+            SaveHistory();
         }
 
         /// <summary>
@@ -207,7 +222,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         /// <param name="obj"></param>
         public async void ClientConnect(object obj)
         {
-            Log values = new Log(this);
+            LogEntryViewModel values = new LogEntryViewModel(this);
             values.Action = "Client";
             values.RequestEntry = new Request() { Date = System.DateTime.Now, Uri = Request.Directory, Content = Request.XmlString };
             values.ResponseEntry = new Response();
@@ -264,7 +279,8 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 await ((MetroWindow)Application.Current.MainWindow).ShowMetroDialogAsync(dial);
             }
             log.Logs.Add(values);
-            Request.Log = new ObservableCollection<Log>(log.Logs.OrderByDescending(x => x.RequestEntry.Date));
+            Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs.OrderByDescending(x => x.RequestEntry.Date));
+            Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite).OrderByDescending(x => x.RequestEntry.Date));
             Request.CanExecuteClient = true;
         }
 
@@ -278,13 +294,44 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             }
         }
 
-        public void ClearHistory(object obj)
+        public async void ClearHistory(object obj)
         {
-            log.Logs.Clear();
-            Request.Log = new ObservableCollection<Log>(log.Logs);
-            if (File.Exists(Path.Combine(GetHistorySavePath() + historyFileName)))
+            var dialSettings = new MetroDialogSettings();
+            dialSettings.NegativeButtonText = "Delete everything but favorite entries";
+            dialSettings.AffirmativeButtonText = "Delete everything";
+            dialSettings.FirstAuxiliaryButtonText = "Cancel";
+            dialSettings.MaximumBodyHeight = 50;
+            dialSettings.DefaultButtonFocus = MessageDialogResult.Affirmative;
+
+            var res = await _dialogCordinator.ShowMessageAsync(this, "Delete History", "Choose what you want to delete:", style: MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary, settings: dialSettings);
+            if(res == MessageDialogResult.Affirmative)
             {
-                File.Delete(Path.Combine(GetHistorySavePath() + historyFileName));
+                log.Logs.Clear();
+                Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs);
+                Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
+                if (File.Exists(Path.Combine(GetHistorySavePath() + historyFileName)))
+                {
+                    File.Delete(Path.Combine(GetHistorySavePath() + historyFileName));
+                }
+            }
+            else
+            {
+                List<LogEntryViewModel> logsToRemove = new List<LogEntryViewModel>();
+                foreach(var item in log.Logs)
+                {
+                    if(item.IsFavorite == false)
+                    {
+                        logsToRemove.Add(item);
+                    }
+                }
+                foreach(var item in logsToRemove)
+                {
+                    log.Logs.Remove(item);
+                }
+                SelectedLogEntryViewModelItem = log.Logs.FirstOrDefault();
+                Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs);
+                Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
+                SaveHistory();
             }
         }
 
@@ -296,7 +343,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         {
             if (value != null)
             {
-                Log oldRequest = (Log)value;
+                LogEntryViewModel oldRequest = (LogEntryViewModel)value;
                 if (oldRequest.Action == "Server")
                 {
                     Request.SelectedIndex = 0;
@@ -311,15 +358,19 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     Request.Directory = oldRequest.RequestEntry.Uri;
                     Request.XmlString = oldRequest.RequestEntry.Content;
                 }
-                SelectedLogItem = oldRequest;
+                SelectedLogEntryViewModelItem = oldRequest;
             }
         }
 
         public void ExecuteDeleteValue(object obj)
         {
-            Log itemToDelete = (Log)obj;
+            LogEntryViewModel itemToDelete = (LogEntryViewModel)obj;
             bool check = log.Logs.Remove(itemToDelete);
             Request.Log.Remove(itemToDelete);
+            if (itemToDelete.IsFavorite)
+            {
+                Request.FavoriteLog.Remove(itemToDelete);
+            }
             SaveHistory();
         }
 
@@ -373,15 +424,18 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     var elements = XmlSerializer.Deserialize<HistoryEntry>(xml);
                     foreach (var item in elements.Logs)
                     {
-                        log.Logs.Add(new Log(this)
+                        log.Logs.Add(new LogEntryViewModel(this)
                         {
+                            Id = item.Id,
+                            Name = item.Name,
                             Action = item.Action,
                             RequestEntry = new Request() { Uri = item.RequestEntry.Uri, Username = item.RequestEntry.Username, Password = item.RequestEntry.Password, Content = item.RequestEntry.Content, Date = item.RequestEntry.Date },
-                            ResponseEntry = new Response() { StatusCode = item.ResponseEntry.StatusCode, Filename = item.ResponseEntry.Filename, TimeUsed = item.ResponseEntry.TimeUsed }
+                            ResponseEntry = new Response() { StatusCode = item.ResponseEntry.StatusCode, Filename = item.ResponseEntry.Filename, TimeUsed = item.ResponseEntry.TimeUsed },
+                            IsFavorite = item.IsFavorite 
                         });
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     string newFilepath = GetHistorySavePath() + Guid.NewGuid().ToString() + "\\" + historyFileName;
                     System.IO.File.Move("filepath", newFilepath);
@@ -396,7 +450,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 }
 
                 RequestModel request = new RequestModel();
-                if (log.Logs[0].Action == "Server")
+                if(log.Logs.FirstOrDefault()?.Action == "Server")
                 {
                     request.WarningVisibility = Visibility.Hidden;
                     request.Url = log.Logs[0].RequestEntry.Uri;
@@ -405,7 +459,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     request.XmlString = log.Logs[0].RequestEntry.Content;
                     Request = request;
                 }
-                else if (log.Logs[0].Action == "Client")
+                else if (log.Logs.FirstOrDefault()?.Action == "Client")
                 {
                     request.WarningVisibility = Visibility.Hidden;
                     request.Directory = log.Logs[0].RequestEntry.Uri;
@@ -413,8 +467,13 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     Request = request;
                     Request.SelectedIndex = 1;
                 }
-                SelectedLogItem = log.Logs[0];
-                Request.Log = new ObservableCollection<Log>(log.Logs);
+                else
+                {
+                    Request = new RequestModel();
+                }
+                SelectedLogEntryViewModelItem = log.Logs.FirstOrDefault();
+                Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs);
+                Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
             }
             else
             {
@@ -427,14 +486,17 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         {
             string path = GetHistorySavePath();
             HistoryEntry history = new HistoryEntry();
-            history.Logs = new List<LogEntrys>();
+            history.Logs = new List<LogEntry>();
             foreach (var item in Request.Log)
             {
-                history.Logs.Add(new LogEntrys()
+                history.Logs.Add(new LogEntry()
                 {
+                    Id = item.Id,
+                    Name = item.Name,
                     Action = item.Action,
                     RequestEntry = new RequestEntry() { Uri = item.RequestEntry.Uri, Username = item.RequestEntry?.Username, Password = item.RequestEntry?.Password, Content = item.RequestEntry.Content, Date = item.RequestEntry.Date },
-                    ResponseEntry = new ResponseEntry() { StatusCode = item.ResponseEntry?.StatusCode, Filename = item.ResponseEntry?.Filename, TimeUsed = item.ResponseEntry?.TimeUsed }
+                    ResponseEntry = new ResponseEntry() { StatusCode = item.ResponseEntry?.StatusCode, Filename = item.ResponseEntry?.Filename, TimeUsed = item.ResponseEntry?.TimeUsed },
+                    IsFavorite = item.IsFavorite
                 });
             }
             var xmlString = XmlSerializer.Serialize<HistoryEntry>(history, new XmlWriterSettings { Encoding = new UTF8Encoding(false) });
@@ -494,10 +556,14 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             double length;
             isErrorAppeared = false;
             Request.CanExecute = false;
-            Log values = new Log(this);
+            LogEntryViewModel values = new LogEntryViewModel(this);
+            var date = System.DateTime.Now;
+            values.Id = Guid.NewGuid();
+            values.Name = date.ToString();
             values.Action = "Server";
-            values.RequestEntry = new Request() { Uri = Request.Url, Content = Request.XmlString, Username = Request.Username, Password = Request.Password, Date = System.DateTime.Now };
+            values.RequestEntry = new Request() { Uri = Request.Url, Content = Request.XmlString, Username = Request.Username, Password = Request.Password, Date = date };
             values.ResponseEntry = new Response();
+            values.IsFavorite = false;
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -561,7 +627,8 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                     values.ResponseEntry.Filename = filename;
                     Request.CanExecute = true;
                     log.Logs.Add(values);
-                    Request.Log = new ObservableCollection<Log>(log.Logs.OrderByDescending(x => x.RequestEntry.Date));
+                    Request.Log = new ObservableCollection<LogEntryViewModel>(log.Logs.OrderByDescending(x => x.RequestEntry.Date).ToList());
+                    Request.FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Logs.Where(x => x.IsFavorite));
                     SaveHistory();
                 }
             }
@@ -633,7 +700,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 validation = true;
             }
         }
-
+        
         private void XmlSettingsValidationEventHandler(object sender, ValidationEventArgs e)
         {
             if (e.Severity == XmlSeverityType.Warning)
@@ -698,7 +765,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 if (isFlyoutOpen != value)
                 {
                     isFlyoutOpen = value;
-                    RaisePropertyChanged("IsFlyoutOpen");
+                    RaisePropertyChanged(nameof(IsFlyoutOpen));
                 }
             }
         }

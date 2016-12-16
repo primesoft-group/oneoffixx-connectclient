@@ -1,15 +1,8 @@
-﻿/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.Model
- * 
- * =============================================================================
- * */
-
-using OneOffixx.ConnectClient.WinApp.HistoryStore;
-using System;
+﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using OneOffixx.ConnectClient.WinApp.ViewModel;
 
 namespace OneOffixx.ConnectClient.WinApp.Model
 {
@@ -22,7 +15,8 @@ namespace OneOffixx.ConnectClient.WinApp.Model
         private string xmlString;
         private bool canExecute;
         private int selectedIndex;
-        private ObservableCollection<Log> log;
+        private ObservableCollection<LogEntryViewModel> log;
+        private ObservableCollection<LogEntryViewModel> _favoriteLog;
         private string error;
         private bool canExecuteClient;
         private System.Windows.Visibility visibility;
@@ -37,7 +31,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             set
             {
                 error = value;
-                RaisePropertyChanged("Error");
+                RaisePropertyChanged(nameof(Error));
             }
         }
 
@@ -49,7 +43,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (selectedIndex != value)
                 {
                     selectedIndex = value;
-                    RaisePropertyChanged("SelectedIndex");
+                    RaisePropertyChanged(nameof(SelectedIndex));
                 }
             }
         }
@@ -65,7 +59,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (username != value)
                 {
                     username = value;
-                    RaisePropertyChanged("Username");
+                    RaisePropertyChanged(nameof(Username));
                 }
             }
         }
@@ -81,7 +75,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (visibility != value)
                 {
                     visibility = value;
-                    RaisePropertyChanged("WarningVisibility");
+                    RaisePropertyChanged(nameof(WarningVisibility));
                 }
             }
         }
@@ -97,7 +91,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (errorMessage != value)
                 {
                     errorMessage = value;
-                    RaisePropertyChanged("WarningMessage");
+                    RaisePropertyChanged(nameof(WarningMessage));
                 }
             }
         }
@@ -113,12 +107,12 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (password != value)
                 {
                     password = value;
-                    RaisePropertyChanged("Password");
+                    RaisePropertyChanged(nameof(Password));
                 }
             }
         }
 
-        public ObservableCollection<Log> Log
+        public ObservableCollection<LogEntryViewModel> Log
         {
             get
             {
@@ -127,7 +121,21 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             set
             {
                 log = value;
-                RaisePropertyChanged("Log");
+                FavoriteLog = new ObservableCollection<LogEntryViewModel>(log.Where(x => x.IsFavorite));
+                RaisePropertyChanged(nameof(Log));
+            }
+        }
+
+        public ObservableCollection<LogEntryViewModel> FavoriteLog
+        {
+            get
+            {
+                return _favoriteLog;
+            }
+            set
+            {
+                _favoriteLog = value;
+                RaisePropertyChanged(nameof(FavoriteLog));
             }
         }
 
@@ -142,7 +150,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (url != value)
                 {
                     url = value;
-                    RaisePropertyChanged("Url");
+                    RaisePropertyChanged(nameof(Url));
                 }
             }
         }
@@ -158,7 +166,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (directory != value)
                 {
                     directory = value;
-                    RaisePropertyChanged("Directory");
+                    RaisePropertyChanged(nameof(Directory));
                 }
             }
         }
@@ -174,8 +182,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
                 if (xmlString != value)
                 {
                     xmlString = value;
-                    RaisePropertyChanged("XmlString");
-
+                    RaisePropertyChanged(nameof(XmlString));
                 }
             }
         }

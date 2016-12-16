@@ -77,24 +77,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewContent\AdvancedSettings.xaml.cs">
+    <Compile Include="Helpers\BooleanToVisibility.cs" />
+    <Compile Include="Helpers\MultiValueConverter.cs" />
+    <Compile Include="Repository\HistoryEntry.cs" />
+    <Compile Include="Repository\LogEntry.cs" />
+    <Compile Include="Repository\RequestEntry.cs" />
+    <Compile Include="Repository\ResponseEntry.cs" />
+    <Compile Include="Repository\XmlSerializer.cs" />
+    <Compile Include="Views\AdvancedSettings.xaml.cs">
       <DependentUpon>AdvancedSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewContent\FailView.xaml.cs">
+    <Compile Include="Views\FailView.xaml.cs">
       <DependentUpon>FailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewContent\License.xaml.cs">
+    <Compile Include="Views\License.xaml.cs">
       <DependentUpon>License.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewContent\RequestView.xaml.cs">
-      <DependentUpon>RequestView.xaml</DependentUpon>
+    <Compile Include="Views\Shell.xaml.cs">
+      <DependentUpon>Shell.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewContent\SuccessView.xaml.cs">
+    <Compile Include="Views\SuccessView.xaml.cs">
       <DependentUpon>SuccessView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AdvancedViewModel.cs" />
     <Compile Include="ViewModel\RequestSender.cs" />
-    <Compile Include="ViewModel\RequestViewModel.cs" />
+    <Compile Include="ViewModel\ShellViewModel.cs" />
     <Compile Include="ViewWindows\ResponseWindow.xaml.cs">
       <DependentUpon>ResponseWindow.xaml</DependentUpon>
     </Compile>
@@ -119,32 +126,32 @@
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\TextEditHelper.cs" />
-    <Compile Include="HistoryStore\History.cs" />
-    <Compile Include="HistoryStore\Log.cs" />
-    <Compile Include="HistoryStore\Request.cs" />
-    <Compile Include="HistoryStore\Response.cs" />
-    <Compile Include="HistoryStore\Seriallization.cs" />
+    <Compile Include="ViewModel\History.cs" />
+    <Compile Include="ViewModel\LogEntryViewModel.cs" />
+    <Compile Include="ViewModel\Request.cs" />
+    <Compile Include="ViewModel\Response.cs" />
+    <Compile Include="Repository\CData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ViewContent\AdvancedSettings.xaml">
+    <Page Include="Views\AdvancedSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewContent\FailView.xaml">
+    <Page Include="Views\FailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewContent\License.xaml">
+    <Page Include="Views\License.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewContent\RequestView.xaml">
+    <Page Include="Views\Shell.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ViewContent\SuccessView.xaml">
+    <Page Include="Views\SuccessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,7 +193,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Ressources\failed.png" />
     <Resource Include="Ressources\OneConnectIcon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -1,13 +1,13 @@
 ﻿using System.Windows.Controls;
 
-namespace OneOffixx.ConnectClient.WinApp.ViewContent
+namespace OneOffixx.ConnectClient.WinApp.Views
 {
     /// <summary>
     /// Interaction logic for SuccessView.xaml
     /// </summary>
     public partial class SuccessView : UserControl
     {
-        public SuccessView(ViewModel.RequestViewModel data)
+        public SuccessView(ViewModel.ShellViewModel data)
         {
             InitializeComponent();
             this.DataContext = data;

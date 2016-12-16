@@ -1,10 +1,10 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using OneOffixx.ConnectClient.WinApp.ViewContent;
 using OneOffixx.ConnectClient.WinApp.ViewWindows;
 using System.IO;
 using System.Reflection;
 using System.Windows.Controls;
+using OneOffixx.ConnectClient.WinApp.Views;
 
 namespace OneOffixx.ConnectClient.WinApp
 {
