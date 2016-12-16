@@ -79,7 +79,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             log.Logs = new List<LogEntryViewModel>();
             LoadHistoryFromFile();
             Application.Current.MainWindow.DataContext = this;
-            Validate = new RelayCommand(ExecuteValidation, param => true);
+            Validate = new RelayCommand(ExecuteValidation, param => Request.CanExecute);
             Send = new RelayCommand(SendRequest, param => Request.CanExecute);
             Save = new RelayCommand(SaveFile, param => true);
             Open = new RelayCommand(OpenFile, param => true);
