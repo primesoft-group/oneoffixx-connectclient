@@ -323,7 +323,7 @@
                                 <Button Style="{DynamicResource SquareButtonStyle}" Content="Clear Input" Command="{Binding Path=ClearInput}" Margin="0,20,0,20" Width="98" HorizontalAlignment="Right"  />
                             </StackPanel>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" Margin="0,0,8,0" Content="Validate" Command="{Binding ValidateCient}"/>
+                                <Button Style="{DynamicResource SquareButtonStyle}" MinWidth="98" Height="28" VerticalAlignment="Center" Margin="0,0,8,0" Content="Validate" Command="{Binding Validate}"/>
                                 <Button Style="{DynamicResource SquareButtonStyle}" HorizontalAlignment="Right" Margin="0,20,0,20" Width="98" Content="OK" Command="{Binding Path=Connect }"/>
                             </StackPanel>
                         </Grid>

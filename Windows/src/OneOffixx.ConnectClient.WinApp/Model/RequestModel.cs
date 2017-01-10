@@ -19,6 +19,7 @@ namespace OneOffixx.ConnectClient.WinApp.Model
         private ObservableCollection<LogEntryViewModel> _favoriteLog;
         private string error;
         private bool canExecuteClient;
+        private bool canValidate;
         private System.Windows.Visibility visibility;
         private string errorMessage;
 
@@ -187,6 +188,21 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             }
         }
 
+        public bool CanValidate
+        {
+            get
+            {
+                return canValidate;
+            }
+            set
+            {
+                if(canValidate != value)
+                {
+                    canValidate = value;
+                }
+            }
+        }
+
         public bool CanExecuteClient
         {
             get
@@ -224,6 +240,14 @@ namespace OneOffixx.ConnectClient.WinApp.Model
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+            if (!String.IsNullOrEmpty(XmlString))
+            {
+                CanValidate = true;
+            }
+            else
+            {
+                CanValidate = false;
             }
             if (!String.IsNullOrEmpty(XmlString) && !String.IsNullOrEmpty(Directory))
             {
