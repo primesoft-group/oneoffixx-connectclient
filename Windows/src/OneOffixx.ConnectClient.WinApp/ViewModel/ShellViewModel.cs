@@ -43,6 +43,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         public ICommand OpenAdvSettings { get; set; }
         public ICommand OpenUrl { get; set; }
         public ICommand Validate { get; set; }
+        public ICommand ValidateCient { get; set; }
         public ICommand EditHistoryName { get; set; }
         public ICommand EnterHistoryNameChanges { get; set; }
 
@@ -80,6 +81,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             LoadHistoryFromFile();
             Application.Current.MainWindow.DataContext = this;
             Validate = new RelayCommand(ExecuteValidation, param => Request.CanExecute);
+            ValidateCient = new RelayCommand(ExecuteValidation, param => Request.CanExecuteClient);
             Send = new RelayCommand(SendRequest, param => Request.CanExecute);
             Save = new RelayCommand(SaveFile, param => true);
             Open = new RelayCommand(OpenFile, param => true);
@@ -224,6 +226,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
         {
             LogEntryViewModel values = new LogEntryViewModel(this);
             values.Action = "Client";
+            values.Name = System.DateTime.Now.ToString();
             values.RequestEntry = new Request() { Date = System.DateTime.Now, Uri = Request.Directory, Content = Request.XmlString };
             values.ResponseEntry = new Response();
             SaveHistory();
