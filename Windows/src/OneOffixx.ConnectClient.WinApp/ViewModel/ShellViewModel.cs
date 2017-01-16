@@ -488,18 +488,23 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
             string path = GetHistorySavePath();
             HistoryEntry history = new HistoryEntry();
             history.Logs = new List<LogEntry>();
-            foreach (var item in Request.Log)
+
+            if (Request.Log != null)
             {
-                history.Logs.Add(new LogEntry()
+                foreach (var item in Request.Log)
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Action = item.Action,
-                    RequestEntry = new RequestEntry() { Uri = item.RequestEntry.Uri, Username = item.RequestEntry?.Username, Password = item.RequestEntry?.Password, Content = item.RequestEntry.Content, Date = item.RequestEntry.Date },
-                    ResponseEntry = new ResponseEntry() { StatusCode = item.ResponseEntry?.StatusCode, Filename = item.ResponseEntry?.Filename, TimeUsed = item.ResponseEntry?.TimeUsed },
-                    IsFavorite = item.IsFavorite
-                });
+                    history.Logs.Add(new LogEntry()
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        Action = item.Action,
+                        RequestEntry = new RequestEntry() { Uri = item.RequestEntry.Uri, Username = item.RequestEntry?.Username, Password = item.RequestEntry?.Password, Content = item.RequestEntry.Content, Date = item.RequestEntry.Date },
+                        ResponseEntry = new ResponseEntry() { StatusCode = item.ResponseEntry?.StatusCode, Filename = item.ResponseEntry?.Filename, TimeUsed = item.ResponseEntry?.TimeUsed },
+                        IsFavorite = item.IsFavorite
+                    });
+                }
             }
+            
             var xmlString = XmlSerializer.Serialize<HistoryEntry>(history, new XmlWriterSettings { Encoding = new UTF8Encoding(false) });
             XDocument xdoc = XDocument.Parse(xmlString);
             if (!Directory.Exists(path))
