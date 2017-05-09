@@ -28,6 +28,8 @@ namespace OneOffixx.ConnectClient.WinApp.Views
 {
     public partial class Shell : UserControl
     {
+        private CompletionWindow currentlyActiveCompletionWindow;
+
         public Shell()
         {
             InitializeComponent();
@@ -165,21 +167,45 @@ namespace OneOffixx.ConnectClient.WinApp.Views
                     e.Handled = true;
                 }
             }
+
+            // close current CompletionWindow if there is no entry (only on xml completion data)
+            if (currentlyActiveCompletionWindow != null)
+            {
+                if (currentlyActiveCompletionWindow != null && !currentlyActiveCompletionWindow.CompletionList.ListBox.HasItems
+                    && currentlyActiveCompletionWindow.CompletionList.CompletionData != null && currentlyActiveCompletionWindow.CompletionList.CompletionData.FirstOrDefault() is XmlCompletionData)
+                {
+                    currentlyActiveCompletionWindow.Close();
+                }
+            }
         }
 
         private void InvokeCompletionWindow(List<Tuple<string, string>> elementAutocompleteList, bool isAttribute, TextEditor editor)
         {
-            var completionWindow = new CompletionWindow(editor.TextArea);
-            IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
-            if (elementAutocompleteList.Any())
+            if (elementAutocompleteList.Count > 0)
             {
-                foreach (var autocompleteelement in elementAutocompleteList)
+                var completionWindow = new CompletionWindow(editor.TextArea);
+                IList<ICompletionData> data = completionWindow.CompletionList.CompletionData;
+                if (elementAutocompleteList.Any())
                 {
-                    data.Add(new XmlCompletionData(autocompleteelement.Item1, autocompleteelement.Item2, isAttribute));
+                    foreach (var autocompleteelement in elementAutocompleteList)
+                    {
+                        data.Add(new XmlCompletionData(autocompleteelement.Item1, autocompleteelement.Item2,
+                            isAttribute));
+                    }
+
+                    completionWindow.Width = 280;
+                    ShowComplitionWindow(completionWindow);
                 }
-                completionWindow.Show();
-                completionWindow.Closed += delegate { completionWindow = null; };
             }
+        }
+
+        private void ShowComplitionWindow(CompletionWindow paramCompletionWindow)
+        {
+            currentlyActiveCompletionWindow = paramCompletionWindow;
+
+            paramCompletionWindow.Show();
+
+            paramCompletionWindow.Closed += delegate { paramCompletionWindow = null; currentlyActiveCompletionWindow = null; };
         }
 
         public List<Tuple<string, string>> ProvidePossibleElementsAutocomplete(XmlElementInformation path)
