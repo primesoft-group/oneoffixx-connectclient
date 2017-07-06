@@ -1,11 +1,4 @@
-﻿/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.ViewModel
- * 
- * =============================================================================
- * */
-using OneOffixx.ConnectClient.WinApp.Helpers;
+﻿using OneOffixx.ConnectClient.WinApp.Helpers;
 using OneOffixx.ConnectClient.WinApp.Model;
 using System;
 using System.Collections.ObjectModel;
@@ -171,9 +164,6 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                                     {
                                         canExecuteSend = true;
                                         Send.CanExecute(canExecuteSend);
-
-
-
                                     });
                                     break;
                                 }
@@ -182,8 +172,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
 
                                 using (var content = result.Content)
                                 {
-
-                                    //Access a object in the main thread and lock the objact so that the ObservableCollection index wont be disturbed.
+                                    //Access a object in the main thread and lock the object so that the ObservableCollection index wont be disturbed.
                                     Application.Current.Dispatcher.Invoke(() =>
                                     {
                                         MultipleRequests.Add(new LogEntryViewModel() { Action = "Server", ResponseEntry = new Response() { Filename = content.Headers.ContentDisposition?.FileName, StatusCode = ((int)result.StatusCode).ToString() } });

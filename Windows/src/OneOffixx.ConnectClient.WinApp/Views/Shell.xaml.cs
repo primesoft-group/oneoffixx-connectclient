@@ -1,12 +1,4 @@
-﻿/* =============================================================================
- * Copyright (C) by Sevitec AG
- *
- * Project: OneOffixx.ConnectClient.WinApp.ViewModel
- * 
- * =============================================================================
- * */
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -49,15 +41,11 @@ namespace OneOffixx.ConnectClient.WinApp.Views
             schemas.Compile();
             XsdInformation = XHelper.XsdParser.AnalyseSchema(schemas);
 
-            textEditor.TextChanged += IntelliSense;
             textEditor.TextArea.Name = "TextArea";
             textEditor.TextArea.TextEntered += TextArea_TextEntered;
-            textEditor.TextArea.Caret.PositionChanged += IntelliSense;
 
-            textEditorClient.TextChanged += IntelliSense;
             textEditorClient.TextArea.Name = "TextAreaClient";
             textEditorClient.TextArea.TextEntered += TextArea_TextEntered;
-            textEditorClient.TextArea.Caret.PositionChanged += IntelliSense;
         }
 
         private void TextBox_PreviewDrop(object sender, DragEventArgs e)
@@ -283,20 +271,6 @@ namespace OneOffixx.ConnectClient.WinApp.Views
 
 
             return result;
-        }
-        private void IntelliSense(object sender, EventArgs eventArgs)
-        {
-            //var GetActiveElementStartPath = XmlParser.GetActiveElementStartPath(textEditor.Text, textEditor.TextArea.Caret.Offset);
-            //var GetParentElementPath = XmlParser.GetParentElementPath(textEditor.Text);
-
-            //var GetElementAtCursor = XmlParser.GetElementAtCursor(textEditor.Text, textEditor.TextArea.Caret.Offset);
-
-            //StringBuilder builder = new StringBuilder();
-            //builder.AppendLine("GetActiveElementStartPath: " + GetActiveElementStartPath.ToString());
-            //builder.AppendLine("GetParentElementPath: " + GetParentElementPath.ToString());
-            //builder.AppendLine("GetElementAtCursor: " + GetElementAtCursor.ToString());
-            //this.CurrentPath.Text = builder.ToString();
-
         }
 
         private void TextBox_VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)

@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         Title="OneOffixx Connect Client" Height="800" Width="1100" MinHeight="400" MinWidth="700"
-        Icon="/Ressources/OneConnectIcon.ico"
+        Icon="/Resources/OneConnectIcon.ico"
         WindowStartupLocation="CenterScreen"
         BorderBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="0"
