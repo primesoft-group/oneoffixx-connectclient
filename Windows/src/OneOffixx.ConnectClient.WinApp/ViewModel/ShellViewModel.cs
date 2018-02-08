@@ -247,7 +247,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                         dial = new ResponseWindow();
                         fail.ServerStatus.Text = "failed";
                         values.ResponseEntry = new Response() { StatusCode = "File not found" };
-                        fail.Details.Text = "Since we could not find the file pleas check your input directory and confirm if there has crept in an error. ";
+                        fail.Details.Text = "Since we could not find the file please check your input directory and confirm if there has crept in an error. ";
                         dial.Content = fail;
                         dial.Height = 300;
                         dial.Width = 300;
@@ -273,7 +273,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 dial = new ResponseWindow();
                 fail.ServerStatus.Text = "Uri not found";
                 values.ResponseEntry = new Response() { StatusCode = "Unexpected Error" };
-                fail.Details.Text = "An unexpected Error has occured while while trying to create the temp .oocx file. Please check the Xml syntax of your content input.";
+                fail.Details.Text = "An unexpected error has occured while trying to create the temp .oocx file. Please check the XML syntax of your content input.";
                 dial.Content = fail;
                 dial.Height = 300;
                 dial.Width = 300;
@@ -516,7 +516,7 @@ namespace OneOffixx.ConnectClient.WinApp.ViewModel
                 }
                 catch (Exception)
                 {
-                    Request.WarningMessage = "The directory which you stated in the Config file could not be created. Pleas check the value Attribute in the Config file!";
+                    Request.WarningMessage = "The directory which you stated in the config file could not be created. Please check the value attribute in the config file!";
                     Request.WarningVisibility = Visibility.Visible;
                 }
             }
