@@ -240,7 +240,7 @@
                     </TabControl>
                 </Grid>
             </Border>
-            <TabControl Margin="4" SelectedIndex="{Binding Path=Request.SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Focusable="False">
+            <TabControl Margin="4" SelectedIndex="{Binding Path=Request.SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="Selector_OnSelectionChanged" Focusable="False">
                 <TabItem Header="Server" TabIndex="0">
                     <DockPanel LastChildFill="True" >
                         <Grid DockPanel.Dock="Top" Margin="0,0,0,15" >
@@ -303,8 +303,9 @@
                                                         BorderBrush="{StaticResource TextBoxBorderBrush}" 
                                                         BorderThickness="1"
                                                         AllowDrop="True" 
-                                                        PreviewDragOver="TextBox_PreviewDragOver"  
-                                                        PreviewDrop="TextBox_PreviewDrop">
+                                                        PreviewDragOver="TextBox_PreviewDragOver"
+                                                        PreviewDrop="TextBox_PreviewDrop"
+                                                        TextChanged="TextEditor_OnTextChanged">
                                 <i:Interaction.Behaviors>
                                     <behaviour:AvalonEditBehaviour GiveMeTheText="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </i:Interaction.Behaviors>
@@ -338,7 +339,8 @@
                                                         BorderThickness="1"
                                                         AllowDrop="True" 
                                                         PreviewDragOver="TextBox_PreviewDragOver"  
-                                                        PreviewDrop="TextBox_PreviewDrop">
+                                                        PreviewDrop="TextBox_PreviewDrop"
+                                                        TextChanged="TextEditor_OnTextChanged">
                             <i:Interaction.Behaviors>
                                 <behaviour:AvalonEditBehaviour GiveMeTheText="{Binding Path=Request.XmlString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </i:Interaction.Behaviors>

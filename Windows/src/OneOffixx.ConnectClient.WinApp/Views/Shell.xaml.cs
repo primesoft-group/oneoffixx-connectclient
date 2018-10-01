@@ -1,4 +1,11 @@
-﻿using System;
+﻿using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.CodeCompletion;
+using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Folding;
+using MahApps.Metro.Controls.Dialogs;
+using OneOffixx.ConnectClient.WinApp.XHelper;
+using OneOffixx.ConnectClient.WinApp.XmlCompletion;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,18 +16,15 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
 using System.Xml.Schema;
-using ICSharpCode.AvalonEdit;
-using ICSharpCode.AvalonEdit.CodeCompletion;
-using ICSharpCode.AvalonEdit.Editing;
-using OneOffixx.ConnectClient.WinApp.XHelper;
-using OneOffixx.ConnectClient.WinApp.XmlCompletion;
-using MahApps.Metro.Controls.Dialogs;
 
 namespace OneOffixx.ConnectClient.WinApp.Views
 {
     public partial class Shell : UserControl
     {
         private CompletionWindow currentlyActiveCompletionWindow;
+        private XmlFoldingStrategy foldingStrategy;
+        private FoldingManager textEditorFoldingManager;
+        private FoldingManager textEditorClientFoldingManager;
 
         public Shell()
         {
@@ -44,8 +48,15 @@ namespace OneOffixx.ConnectClient.WinApp.Views
             textEditor.TextArea.Name = "TextArea";
             textEditor.TextArea.TextEntered += TextArea_TextEntered;
 
+            textEditorFoldingManager = FoldingManager.Install(textEditor.TextArea);
+            foldingStrategy = new XmlFoldingStrategy();
+            foldingStrategy.UpdateFoldings(textEditorFoldingManager, textEditor.Document);
+
             textEditorClient.TextArea.Name = "TextAreaClient";
             textEditorClient.TextArea.TextEntered += TextArea_TextEntered;
+
+            textEditorClientFoldingManager = FoldingManager.Install(textEditorClient.TextArea);
+            foldingStrategy.UpdateFoldings(textEditorClientFoldingManager, textEditorClient.Document);
         }
 
         private void TextBox_PreviewDrop(object sender, DragEventArgs e)
@@ -74,7 +85,6 @@ namespace OneOffixx.ConnectClient.WinApp.Views
 
             try
             {
-
                 switch (e.Text)
                 {
                     case ">":
@@ -166,7 +176,7 @@ namespace OneOffixx.ConnectClient.WinApp.Views
                 }
             }
         }
-
+        
         private void InvokeCompletionWindow(List<Tuple<string, string>> elementAutocompleteList, bool isAttribute, TextEditor editor)
         {
             if (elementAutocompleteList.Count > 0)
@@ -228,8 +238,7 @@ namespace OneOffixx.ConnectClient.WinApp.Views
                     }
                 }
             }
-
-
+            
             return result;
         }
 
@@ -277,6 +286,34 @@ namespace OneOffixx.ConnectClient.WinApp.Views
         {
             TextBox textBox = (TextBox)sender;
             Keyboard.Focus(textBox);
+        }
+
+        private void TextEditor_OnTextChanged(object sender, EventArgs e)
+        {
+            switch (((TextEditor)sender).TextArea.Name)
+            {
+                case "TextArea":
+                    foldingStrategy.UpdateFoldings(textEditorFoldingManager, textEditor.Document);
+                    break;
+                case "TextAreaClient":
+                    foldingStrategy.UpdateFoldings(textEditorClientFoldingManager, textEditorClient.Document);
+                    break;
+            }
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tabControl = (TabControl) sender;
+
+            switch (((TabItem)tabControl.SelectedValue).Header.ToString())
+            {
+                case "Server":
+                    foldingStrategy.UpdateFoldings(textEditorFoldingManager, textEditor.Document);
+                    break;
+                case "Client":
+                    foldingStrategy.UpdateFoldings(textEditorClientFoldingManager, textEditorClient.Document);
+                    break;
+            }
         }
     }
 }
